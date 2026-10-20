@@ -124,6 +124,12 @@ a{color:var(--brand-2)}
 .opt .key{width:30px; height:30px; border-radius:50%; background:var(--brand-soft); color:var(--brand-2); display:grid; place-items:center; font-family:var(--f-en); font-weight:800; font-size:var(--s-1)}
 .opt.on{border-color:var(--brand-2); background:var(--brand-soft)}
 .opt.on .key{background:var(--brand-2); color:var(--white)}
+.opts.multi .opt .key{border-radius:6px; background:var(--white); border:2px solid var(--line); width:24px; height:24px}
+.opts.multi .opt.on .key{background:var(--brand-2); border-color:var(--brand-2)}
+.opts.multi .opt.on .key::after{content:""; width:6px; height:11px; border:solid var(--white); border-width:0 2.5px 2.5px 0; transform:translateY(-1px) rotate(45deg)}
+.multi-note{font-size:var(--s-1); font-weight:700; color:var(--brand-2); margin-top:-8px}
+.quiz-foot{display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap}
+.btn:disabled{opacity:.4; cursor:default; transform:none; filter:none}
 .opt .map{grid-column:2; font-size:.75rem; font-weight:700; color:var(--ink-2)}
 .linkbtn{appearance:none; background:none; border:0; font:inherit; font-weight:700; color:var(--ink-2); cursor:pointer; padding:6px 0; justify-self:start}
 .linkbtn:hover{color:var(--ink)}
@@ -630,6 +636,7 @@ function seqFor(branch) {
   return [...q.common.map((_, i) => `common.${i}`), ...q[branch].map((_, i) => `${branch}.${i}`), ...q.end.map((_, i) => `end.${i}`)];
 }
 const Q = p => get(D().questions, p);
+const isMulti = q => (q.multi != null ? q.multi : q.kind === "type"); // 素質の質問は複数選択OK
 function levelScore() {
   let s = 0;
   D().questions.common.forEach((q, i) => { const a = quizState.ans[`common.${i}`]; if (a != null && q.options[a].lv != null) s += q.options[a].lv; });
@@ -723,10 +730,12 @@ function introHTML() {
 function quizHTML(path, pos, total, chosen) {
   const q = Q(path), n = pos + 1, P = `questions.${path}`;
   const typeName = k => D().types[k].name;
+  const multi = isMulti(q);
   const mapText = o => o.t ? `この答え → ${esc(typeName(o.t))}・${o.tr.join("・")}` : o.lv != null ? `レベル判定 +${o.lv}点` : "";
   const opts = q.options.map((o, k) => EDIT
     ? `<div class="opt"><span class="key">${"ABCDE"[k]}</span><span data-edit="${P}.options.${k}.label">${esc(o.label)}</span>${mapText(o) ? `<span class="map">${mapText(o)}</span>` : ""}</div>`
-    : `<button type="button" class="opt${chosen === k ? " on" : ""}" data-k="${k}" id="opt-${n}-${k}"><span class="key">${"ABCDE"[k]}</span><span>${esc(o.label)}</span></button>`).join("");
+    : `<button type="button" class="opt${(multi ? (chosen || []).includes(k) : chosen === k) ? " on" : ""}" data-k="${k}" id="opt-${n}-${k}" ${multi ? `aria-pressed="${(chosen || []).includes(k)}"` : ""}><span class="key">${multi ? "" : "ABCDE"[k]}</span><span>${esc(o.label)}</span></button>`).join("");
+  const nextOk = multi && (chosen || []).length > 0;
   return `
   <section class="band quiz-band"><div class="inner">
     <div class="qcard fade" aria-live="polite">
@@ -736,9 +745,10 @@ function quizHTML(path, pos, total, chosen) {
       </div>
       <div class="qnum">Q${n}</div>
       ${E("h2", `${P}.text`, 'class="qtext"')}
+      ${multi ? `<p class="multi-note">あてはまるものを<b>いくつでも</b>選んでください</p>` : ""}
       ${q.hint != null ? E("p", `${P}.hint`, 'class="qhint"') : ""}
-      <div class="opts">${opts}</div>
-      ${EDIT ? "" : `<button type="button" class="linkbtn" id="back">${pos === 0 ? "← トップへ戻る" : "← 前の質問へ"}</button>`}
+      <div class="opts${multi ? " multi" : ""}">${opts}</div>
+      ${EDIT ? "" : `<div class="quiz-foot"><button type="button" class="linkbtn" id="back">${pos === 0 ? "← トップへ戻る" : "← 前の質問へ"}</button>${multi ? `<button type="button" class="btn small" id="next"${nextOk ? "" : " disabled"}>次へ</button>` : ""}</div>`}
     </div>
   </div></section>`;
 }
@@ -750,17 +760,23 @@ function compute() {
   const trait = Object.fromEntries(TRAITS.map(t => [t, 0]));
   let tie = null;
   quizState.seq.forEach(path => {
-    const a = quizState.ans[path]; if (a == null) return;
-    const q = Q(path), o = q.options[a];
-    if (q.kind === "type") { score[o.t] += 1; o.tr.forEach(t => trait[t] += 1); if (q.tie) tie = o.t; }
-    else if (q.kind === "talk") { r.talk = o.v; trait["伝える力"] += o.v * 0.5; }
+    const a = quizState.ans[path]; if (a == null || (Array.isArray(a) && !a.length)) return;
+    const q = Q(path);
+    if (q.kind === "type") {
+      const picks = Array.isArray(a) ? a : [a], w = 1 / picks.length;
+      picks.forEach(k => { const o = q.options[k]; score[o.t] += w; o.tr.forEach(t => trait[t] += w); });
+      if (q.tie) tie = picks.map(k => q.options[k].t);
+      return;
+    }
+    const o = q.options[a];
+    if (q.kind === "talk") { r.talk = o.v; trait["伝える力"] += o.v * 0.5; }
     else if (o.v != null) r[q.kind] = o.v;
   });
   r.level = levelOf(levelScore());
   r.tier = r.level === "L1" ? "L2" : r.level; // 表示上のランクは、誰でも2段目以上
   const top = Math.max(...Object.values(score));
   const tied = ORDER.filter(k => score[k] === top);
-  r.type = tied.includes(tie) ? tie : tied[0];
+  r.type = (tie && tied.find(k => tie.includes(k))) || tied[0];
   const maxT = Math.max(...Object.values(trait), 1);
   const ranked = [...TRAITS].sort((a, b) => trait[b] - trait[a]);
   r.topTraits = ranked.slice(0, 2);
@@ -937,21 +953,32 @@ function render() {
 
 function wireNormal() {
   root.querySelectorAll(".start").forEach(b => b.onclick = () => { startQuiz(); view.screen = "quiz"; render(); window.scrollTo(0, 0); });
+  const advance = () => {
+    // 共通の質問が終わったら、レベルに合わせて次からの質問を切り替える
+    if (quizState.pos === D().questions.common.length - 1) {
+      const br = branchOf(levelScore());
+      if (br !== quizState.branch) { quizState.branch = br; quizState.seq = seqFor(br); }
+    }
+    if (quizState.pos < quizState.seq.length - 1) quizState.pos++;
+    else { lastResult = compute(); view.screen = "result"; }
+    render(); window.scrollTo(0, 0);
+  };
   root.querySelectorAll(".opt").forEach(b => b.onclick = () => {
-    const path = quizState.seq[quizState.pos];
-    quizState.ans[path] = Number(b.dataset.k);
+    const path = quizState.seq[quizState.pos], k = Number(b.dataset.k);
+    if (isMulti(Q(path))) {
+      const cur = Array.isArray(quizState.ans[path]) ? quizState.ans[path] : [];
+      quizState.ans[path] = cur.includes(k) ? cur.filter(x => x !== k) : [...cur, k].sort();
+      const on = quizState.ans[path].includes(k);
+      b.classList.toggle("on", on); b.setAttribute("aria-pressed", String(on));
+      document.getElementById("next").disabled = quizState.ans[path].length === 0;
+      return;
+    }
+    quizState.ans[path] = k;
     root.querySelectorAll(".opt").forEach(x => x.classList.toggle("on", x === b));
-    setTimeout(() => {
-      // 共通の質問が終わったら、レベルに合わせて次からの質問を切り替える
-      if (quizState.pos === D().questions.common.length - 1) {
-        const br = branchOf(levelScore());
-        if (br !== quizState.branch) { quizState.branch = br; quizState.seq = seqFor(br); }
-      }
-      if (quizState.pos < quizState.seq.length - 1) quizState.pos++;
-      else { lastResult = compute(); view.screen = "result"; }
-      render(); window.scrollTo(0, 0);
-    }, 180);
+    setTimeout(advance, 180);
   });
+  const next = document.getElementById("next");
+  if (next) next.onclick = advance;
   const back = document.getElementById("back");
   if (back) back.onclick = () => { if (quizState.pos === 0) view.screen = "intro"; else quizState.pos--; render(); window.scrollTo(0, 0); };
   const copy = document.getElementById("copy");
