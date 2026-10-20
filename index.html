@@ -1,0 +1,1236 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="高校1・2年生のための総合型選抜タイプ診断。全16問・約3分で、あなたの素質と合格までの道のりがわかります。">
+<title>総合型選抜タイプ診断</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Klee+One:wght@600&family=Montserrat:wght@700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Zen+Old+Mincho:wght@600;700;900&display=swap">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<style id="page-style">
+/* Layout: Loohcs志塾のLPに合わせた構成。深いブルーグレーの帯、明朝体の見出し、白いカード、ティールのボタンで縦に積み、結果画面では下部に相談ボタンを固定 */
+/* 明るい単一テーマを意図的に採用。メイン4色は編集モードの「塾の情報・色」から変更でき、ほかの色はそこから自動で作られる */
+:root{
+  --brand:#32576F; --brand-2:#009EAA; --cta:#009EAA; --marker:#FBC661;
+  --brand-deep:color-mix(in srgb, var(--brand) 72%, #001a2a);
+  --brand-soft:color-mix(in srgb, var(--brand-2) 10%, #fff);
+  --cta-shadow:color-mix(in srgb, var(--cta) 76%, #000);
+  --accent:#F39A2B;
+  --bg:#FFFFFF; --bg-2:#F5F5F5; --ink:#222222; --ink-2:#555555; --line:#E3E3E3; --white:#FFFFFF;
+  --shadow:0 4px 16px rgba(0,0,0,.10);
+  --genko:#B9644B;
+  --t-social:#D46A3C; --t-research:#2E77A8; --t-create:#2B9479; --t-support:#B85583;
+  --ed-bg:#141B2D; --ed-fg:#FFFFFF; --ed-mute:#AAB3CC; --ed-line:#2C3654; --ed-accent:#7FA6FF; --ed-warn:#FFB86B;
+  --f-body:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;
+  --f-head:"Zen Old Mincho","Hiragino Mincho ProN","Yu Mincho",serif;
+  --f-en:"Montserrat","Zen Kaku Gothic New",sans-serif;
+  --f-hand:"Klee One","Hiragino Mincho ProN","Yu Mincho",serif;
+  --s-1:.8125rem; --s0:1rem; --s1:1.125rem; --s2:1.375rem; --s3:1.75rem;
+  --ed-h:0px;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{background:var(--bg); color:var(--ink); font-family:var(--f-body); font-size:var(--s0); line-height:1.85; -webkit-font-smoothing:antialiased}
+h1,h2,h3{margin:0; text-wrap:balance; line-height:1.45; font-family:var(--f-head); letter-spacing:.04em}
+p{margin:0}
+a{color:var(--brand-2)}
+:focus-visible{outline:3px solid var(--brand-2); outline-offset:3px; border-radius:6px}
+.hl{background:linear-gradient(transparent 60%, var(--marker) 60%); padding:0 2px}
+.hero .hl,.res-top .reversal-dark .hl,.navy .hl{background:none; color:var(--marker); padding:0}
+
+.band{padding-block:44px; padding-left:max(16px, env(safe-area-inset-left, 0px)); padding-right:max(16px, env(safe-area-inset-right, 0px))}
+.band.alt{background:var(--bg-2)}
+.band.navy{background:var(--brand); color:var(--white)}
+.inner{max-width:760px; margin:0 auto; display:grid; gap:22px; min-width:0}
+.sec-head{display:grid; gap:4px; text-align:center; justify-items:center}
+.en{font-family:var(--f-en); font-weight:800; font-size:var(--s-1); letter-spacing:.18em; color:var(--brand-2)}
+.navy .en{color:var(--marker)}
+.sec-head h2{font-size:clamp(1.4rem, 5.2vw, 1.9rem); font-weight:700; color:var(--brand-2); letter-spacing:.08em}
+.navy .sec-head h2{color:var(--white)}
+.sec-head h2::after{content:""; display:block; width:40px; height:2px; background:currentColor; opacity:.5; margin:14px auto 0}
+
+.topbar{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; padding-block:12px; border-bottom:1px solid var(--line); background:var(--white);
+  padding-left:max(16px, env(safe-area-inset-left, 0px)); padding-right:max(16px, env(safe-area-inset-right, 0px))}
+.logo{font-family:var(--f-head); font-weight:700; font-size:var(--s1); color:var(--brand); line-height:1.3; letter-spacing:.04em}
+.logo small{display:block; font-size:.6875rem; font-weight:700; color:var(--ink-2); letter-spacing:.04em}
+.top-cta{font-size:var(--s-1); font-weight:700; color:var(--white); background:var(--cta); text-decoration:none; padding:6px 16px; border-radius:999px; box-shadow:0 3px 6px rgba(69,69,69,.16)}
+
+.btn{appearance:none; border:0; cursor:pointer; font:inherit; font-weight:900; font-size:var(--s1); text-decoration:none;
+  display:inline-flex; align-items:center; justify-content:center; gap:12px; color:var(--white); background:var(--cta);
+  padding:16px 32px; border-radius:999px; box-shadow:0 3px 6px rgba(69,69,69,.16); transition:filter .15s ease, transform .15s ease; text-align:center; letter-spacing:.04em}
+.btn::after{content:"›"; flex:none; display:grid; place-items:center; width:26px; height:26px; border-radius:50%; background:var(--white); color:var(--cta); font-size:1.2rem; line-height:1}
+.btn:hover{filter:brightness(1.08); transform:translateY(-1px)}
+.btn.wide{width:100%; max-width:480px}
+.btn.sub{background:var(--brand); color:var(--white); border:0}
+.btn.sub::after{background:var(--white); color:var(--brand)}
+.btn.small{font-size:var(--s0); padding:12px 22px}
+.btn-row{display:flex; flex-wrap:wrap; gap:14px; justify-content:center}
+.microcopy{font-size:var(--s-1); font-weight:700; color:var(--ink-2); text-align:center}
+
+.hero{background:linear-gradient(170deg, var(--brand-deep) 0%, var(--brand) 100%); color:var(--white)}
+.hero .inner{gap:18px; text-align:center; justify-items:center}
+.badge{display:inline-block; font-weight:700; font-size:var(--s-1); color:var(--white); background:var(--accent); padding:5px 16px; border-radius:999px; letter-spacing:.06em}
+.hero h1{font-weight:700; font-size:clamp(1.85rem, 7.4vw, 3rem); line-height:1.45}
+.hero .lead{font-size:var(--s1); font-weight:500; max-width:32em; opacity:.95}
+.meta{display:flex; flex-wrap:wrap; gap:8px; justify-content:center; padding:0; margin:0; list-style:none}
+.meta li{font-size:var(--s-1); font-weight:700; padding:4px 12px; border-radius:999px; border:1.5px solid rgba(255,255,255,.6)}
+.hero .microcopy{color:var(--white); opacity:.9}
+
+.worries{display:grid; gap:10px; padding:0; margin:0; list-style:none}
+.worries{grid-template-columns:repeat(2, minmax(0,1fr))}
+.worries li{display:flex; justify-content:center; align-items:center; gap:8px; text-align:center; background:var(--white); border:1px solid var(--brand-2); color:var(--brand-2); border-radius:2px; padding:14px 16px; font-weight:700; line-height:1.6}
+@media (max-width:560px){ .worries{grid-template-columns:minmax(0,1fr)} }
+.bubble{position:relative; background:var(--brand); color:var(--white); font-family:var(--f-head); font-weight:700; text-align:center; border-radius:8px; padding:18px 16px; font-size:var(--s1); letter-spacing:.04em}
+.bubble::before{content:""; position:absolute; top:-12px; left:50%; transform:translateX(-50%); border:12px solid transparent; border-top:0; border-bottom-color:var(--brand)}
+.bubble .hl{background:none; color:var(--marker)}
+
+.compare-wrap{overflow-x:auto}
+.compare{width:100%; border-collapse:separate; border-spacing:0; min-width:520px; font-size:var(--s-1)}
+.compare th,.compare td{padding:12px 14px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top}
+.compare thead th{font-size:var(--s0); font-weight:700; text-align:center}
+.compare thead th:nth-child(2){background:#EBEBEB; color:var(--ink-2); border-radius:8px 8px 0 0}
+.compare thead th:nth-child(3){background:var(--brand-2); color:var(--white); border-radius:8px 8px 0 0}
+.compare tbody th{font-weight:700; color:var(--ink-2); white-space:nowrap}
+.compare td:nth-child(3){background:var(--brand-soft); font-weight:700}
+.fine{font-size:.75rem; color:var(--ink-2); line-height:1.7}
+
+.types{display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:12px}
+.type-card{display:flex; gap:14px; align-items:center; padding:16px; background:var(--white); border-radius:8px; box-shadow:var(--shadow); min-width:0}
+.type-card h3{font-size:var(--s0); font-weight:700}
+.type-card p{font-size:var(--s-1); color:var(--ink-2); line-height:1.6}
+@media (max-width:560px){ .types{grid-template-columns:minmax(0,1fr)} }
+.stamp{--tc:var(--brand); flex:none; width:52px; height:52px; display:grid; place-items:center; font-weight:900; font-size:1.5rem; color:var(--tc);
+  border:3px solid var(--tc); border-radius:10px; transform:rotate(-6deg); background:var(--white);
+  box-shadow:inset 0 0 0 2px var(--white), inset 0 0 0 3.5px var(--tc)}
+.stamp.big{width:92px; height:92px; font-size:2.8rem; border-width:4px; border-radius:14px; box-shadow:inset 0 0 0 3px var(--white), inset 0 0 0 5px var(--tc)}
+
+.quiz-band{background:var(--bg-2); min-height:70vh}
+.qcard{background:var(--white); box-shadow:var(--shadow); border-radius:8px; padding:clamp(20px,5vw,32px); display:grid; gap:16px}
+.progress{display:grid; gap:8px}
+.progress-top{display:flex; justify-content:space-between; gap:8px; font-size:var(--s-1); font-weight:700; color:var(--ink-2); font-variant-numeric:tabular-nums}
+.bar{height:8px; border-radius:99px; background:var(--brand-soft); overflow:hidden}
+.bar span{display:block; height:100%; background:var(--brand-2); border-radius:99px; transition:width .3s ease}
+.qnum{font-family:var(--f-en); font-weight:800; font-size:var(--s3); color:var(--brand-2); line-height:1}
+.qtext{font-size:var(--s2); font-weight:700}
+.qhint{font-size:var(--s-1); color:var(--ink-2); margin-top:-8px}
+.opts{display:grid; gap:10px}
+.opt{appearance:none; font:inherit; text-align:left; cursor:pointer; color:var(--ink); background:var(--white); border:1px solid var(--line); border-radius:8px; padding:13px 16px;
+  display:grid; grid-template-columns:30px minmax(0,1fr); gap:12px; align-items:center; font-weight:500; transition:border-color .15s ease, background .15s ease}
+.opt:hover{border-color:var(--brand-2)}
+.opt .key{width:30px; height:30px; border-radius:50%; background:var(--brand-soft); color:var(--brand-2); display:grid; place-items:center; font-family:var(--f-en); font-weight:800; font-size:var(--s-1)}
+.opt.on{border-color:var(--brand-2); background:var(--brand-soft)}
+.opt.on .key{background:var(--brand-2); color:var(--white)}
+.opt .map{grid-column:2; font-size:.75rem; font-weight:700; color:var(--ink-2)}
+.linkbtn{appearance:none; background:none; border:0; font:inherit; font-weight:700; color:var(--ink-2); cursor:pointer; padding:6px 0; justify-self:start}
+.linkbtn:hover{color:var(--ink)}
+
+.res-top{background:linear-gradient(170deg, var(--brand-deep) 0%, var(--brand) 100%); color:var(--white)}
+.res-card{background:var(--white); color:var(--ink); border-radius:8px; padding:clamp(20px,5vw,32px); display:grid; gap:14px; justify-items:center; text-align:center}
+.res-label{font-weight:900; color:var(--brand); font-size:var(--s-1); letter-spacing:.08em}
+.res-name{font-weight:900; letter-spacing:.06em; font-size:clamp(1.8rem, 7vw, 2.6rem); color:var(--tc); line-height:1.25}
+.res-catch{font-weight:700; font-size:var(--s1)}
+.res-desc{text-align:left; max-width:36em}
+.res-note{font-size:var(--s-1); color:var(--ink-2); background:var(--bg-2); border-radius:8px; padding:8px 12px; text-align:left}
+
+.reversal{background:var(--white); border-top:4px solid var(--marker); border-radius:8px; padding:clamp(20px,5vw,30px); display:grid; gap:12px; color:var(--ink)}
+.reversal .kicker{font-weight:700; color:var(--accent); font-size:var(--s-1); letter-spacing:.06em}
+.reversal h3{font-size:clamp(1.25rem, 4.6vw, 1.6rem); font-weight:700}
+.fact{display:grid; grid-template-columns:auto minmax(0,1fr); gap:12px; align-items:center; background:var(--brand-soft); border-radius:10px; padding:12px 14px}
+.fact b{font-family:var(--f-en); font-weight:800; color:var(--white); background:var(--brand); border-radius:6px; padding:2px 8px; font-size:var(--s-1); letter-spacing:.06em}
+.fact span{font-weight:700; font-size:var(--s-1)}
+
+.traits{display:grid; gap:14px}
+.trait{display:grid; grid-template-columns:5.5em minmax(0,1fr) 4em; gap:12px; align-items:center}
+.trait-name{font-weight:900}
+.trait-track{height:16px; border-radius:99px; background:var(--brand-soft); overflow:hidden}
+.trait-fill{height:100%; border-radius:99px; background:var(--brand-2)}
+.trait.top .trait-fill{background:var(--accent)}
+.trait-tag{font-size:.75rem; font-weight:900; text-align:center; border-radius:4px; padding:2px 0; color:var(--brand-2); background:var(--brand-soft)}
+.trait.top .trait-tag{color:var(--white); background:var(--accent)}
+.panel{background:var(--white); box-shadow:var(--shadow); border-radius:8px; padding:clamp(18px,5vw,28px); display:grid; gap:14px; min-width:0}
+.panel h3{font-size:var(--s1); font-weight:700; display:flex; gap:8px; align-items:center}
+.panel h3::before{content:""; flex:none; width:6px; height:1.2em; border-radius:3px; background:var(--tc, var(--brand-2))}
+.list{margin:0; padding:0; list-style:none; display:grid; gap:8px}
+.list li{display:grid; grid-template-columns:22px minmax(0,1fr); gap:8px}
+.list li::before{content:"●"; color:var(--tc, var(--brand-2)); font-size:.7rem; line-height:2.6}
+.chips{display:flex; flex-wrap:wrap; gap:8px}
+.chips > span{font-size:var(--s-1); font-weight:700; padding:4px 12px; border-radius:999px; border:1.5px solid var(--tc); background:var(--white); display:inline-flex; gap:6px; align-items:center}
+
+.start-type{display:grid; grid-template-columns:auto minmax(0,1fr); gap:16px; align-items:center}
+.start-type .pill{font-family:var(--f-head); font-weight:700; color:var(--white); background:var(--brand); border-radius:8px; padding:10px 14px; text-align:center; line-height:1.4; display:grid}
+.start-type .pill small{font-size:.6875rem; font-weight:700; opacity:.85}
+@media (max-width:480px){ .start-type{grid-template-columns:minmax(0,1fr)} }
+
+.lv-meter{display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:4px}
+.lv-meter span{font-size:.75rem; font-weight:900; text-align:center; padding:6px 4px; background:var(--bg-2); color:var(--ink-2); line-height:1.3}
+.lv-meter span:first-child{border-radius:8px 0 0 8px}
+.lv-meter span:last-child{border-radius:0 8px 8px 0}
+.lv-meter span.on{background:var(--brand-soft); color:var(--brand)}
+.lv-meter span.cur{background:var(--brand); color:var(--white)}
+
+.case{background:var(--white); box-shadow:var(--shadow); border-radius:8px; padding:clamp(16px,4vw,26px); display:grid; gap:10px; min-width:0}
+.case-band{padding-bottom:30px}
+.case-band .inner{gap:16px}
+.case-note{text-align:center; margin-top:-4px}
+.walls-band{position:relative; padding-top:52px}
+.walls-band::before{content:""; position:absolute; top:-1px; left:50%; transform:translateX(-50%); border:22px solid transparent; border-bottom:0; border-top:18px solid var(--bg-2)}
+.walls-kicker{justify-self:center; text-align:center; font-weight:700; font-size:var(--s-1); color:var(--brand); background:var(--marker); border-radius:999px; padding:6px 16px; line-height:1.5}
+.walls-lead{text-align:center; max-width:34em; justify-self:center; opacity:.9}
+.case-title{font-size:clamp(1.1rem, 4.2vw, 1.35rem); font-weight:700; text-align:center}
+.case-flow{display:grid; gap:0; justify-items:stretch}
+.case-box{border-radius:8px; padding:10px 14px; background:var(--bg-2); display:grid; gap:8px; min-width:0}
+.case-lbl{font-size:.75rem; font-weight:900; letter-spacing:.06em; color:var(--brand-2)}
+.case-chips{display:flex; flex-wrap:wrap; gap:6px}
+.case-chips > span{font-size:var(--s-1); font-weight:700; background:var(--white); border:1px solid var(--line); border-radius:6px; padding:2px 10px; display:inline-flex; gap:6px; align-items:center}
+.case-steps{margin:0; padding:0; list-style:none; counter-reset:cs; display:grid; gap:4px}
+.case-steps li{counter-increment:cs; display:grid; grid-template-columns:22px minmax(0,1fr); gap:8px; align-items:start; font-weight:500; font-size:var(--s-1); line-height:1.7}
+.case-steps li::before{content:counter(cs); width:20px; height:20px; border-radius:50%; background:var(--tc); color:var(--white); display:grid; place-items:center; font-family:var(--f-en); font-weight:800; font-size:.6875rem; margin-top:2px}
+.editing .case-steps li{grid-template-columns:24px minmax(0,1fr) auto}
+.case-arrow{height:14px; position:relative}
+.case-arrow::before{content:""; position:absolute; left:50%; top:2px; transform:translateX(-50%); border:7px solid transparent; border-bottom:0; border-top:9px solid var(--brand-2)}
+.case-after{background:var(--brand); color:var(--white)}
+.case-after .case-lbl{color:var(--marker)}
+.case-result{font-family:var(--f-head); font-size:clamp(1.1rem, 4.4vw, 1.4rem); font-weight:700; line-height:1.5; letter-spacing:.04em}
+.case-close{font-size:var(--s-1); font-weight:700; color:var(--marker)}
+.case-after [data-edit]{outline-color:rgba(255,255,255,.6)}
+
+.road{margin:0; padding:0; list-style:none; display:grid}
+.road li{display:grid; grid-template-columns:40px minmax(0,1fr); gap:14px; position:relative; padding-bottom:18px}
+.road li:not(:last-child)::after{content:""; position:absolute; left:19px; top:40px; bottom:0; width:2px; background:var(--line)}
+.road .dot{width:40px; height:40px; border-radius:50%; background:var(--brand); color:var(--white); display:grid; place-items:center; font-family:var(--f-en); font-weight:800}
+.road .when{font-size:var(--s-1); font-weight:900; color:var(--brand-2)}
+.road .what{font-weight:700}
+.road .help{display:inline-block; margin-top:4px; font-size:.75rem; font-weight:700; color:var(--accent); border:1.5px solid var(--accent); border-radius:4px; padding:0 6px}
+
+.walls{display:grid; gap:12px; grid-template-columns:repeat(3, minmax(0,1fr))}
+.wall{background:var(--white); border-radius:8px; padding:18px; display:grid; gap:8px; align-content:start; color:var(--ink)}
+.wall .no{font-family:var(--f-en); font-weight:800; color:var(--brand-2); font-size:var(--s-1); letter-spacing:.1em}
+.wall h3{font-size:var(--s0); font-weight:700}
+.wall p{font-size:var(--s-1); color:var(--ink-2); line-height:1.7}
+.walls-close{text-align:center; font-weight:700}
+@media (max-width:640px){ .walls{grid-template-columns:minmax(0,1fr)} }
+
+.genko{display:grid; grid-template-columns:repeat(20, minmax(0,1fr)); border:2px solid var(--genko); background:var(--white)}
+.genko span{aspect-ratio:1; display:grid; place-items:center; border-right:1px solid var(--genko); border-bottom:1px solid var(--genko);
+  font-family:var(--f-hand); font-weight:600; font-size:clamp(.6rem, 2.6vw, 1.05rem); line-height:1; min-width:0}
+.genko span:nth-child(20n){border-right:0}
+.genko span.last-row{border-bottom:0}
+.genko span.p{place-items:start start; padding:2px 0 0 3px}
+.genko-edit{font-family:var(--f-hand); font-weight:600; font-size:var(--s1); border:2px solid var(--genko); padding:14px; background:var(--white)}
+
+.cta-box{background:var(--white); border-top:4px solid var(--cta); box-shadow:var(--shadow); border-radius:8px; padding:clamp(20px,5vw,32px); display:grid; gap:16px; justify-items:center; text-align:center}
+.cta-box h2{font-size:clamp(1.3rem, 5vw, 1.75rem); font-weight:700; color:var(--brand)}
+.benefits{margin:0; padding:0; list-style:none; counter-reset:b; display:grid; gap:10px; width:100%; max-width:520px; text-align:left}
+.benefits li{counter-increment:b; display:grid; grid-template-columns:auto minmax(0,1fr); gap:12px; align-items:center; background:var(--bg-2); border-radius:8px; padding:10px 14px; font-weight:700}
+.benefits li::before{content:"0" counter(b); font-family:var(--f-en); font-weight:800; font-size:.75rem; color:var(--white); background:var(--cta); border-radius:4px; padding:2px 8px; letter-spacing:.06em}
+.cta-notes{display:flex; flex-wrap:wrap; gap:6px 16px; justify-content:center; font-size:var(--s-1); font-weight:700; color:var(--ink-2)}
+.cta-notes span::before{content:"○ "; color:var(--cta)}
+.setup{border:1.5px dashed var(--genko); color:var(--ink-2); border-radius:10px; padding:10px 14px; font-size:var(--s-1); max-width:480px}
+
+.share-text{width:100%; font:inherit; font-size:var(--s-1); color:var(--ink); background:var(--bg-2); border:1px solid var(--line); border-radius:8px; padding:10px; resize:none}
+.share-edit{font-size:var(--s-1); background:var(--bg-2); border-radius:8px; padding:10px}
+.toast{font-size:var(--s-1); font-weight:700; color:var(--t-create); text-align:center; min-height:1.5em}
+.others{display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:10px}
+.others .type-card{flex-direction:column; text-align:center; gap:8px}
+@media (max-width:600px){ .others{grid-template-columns:minmax(0,1fr)} .others .type-card{flex-direction:row; text-align:left} }
+
+.fixed-cta{position:fixed; left:0; right:0; bottom:0; z-index:20; background:rgba(160,160,160,.4); backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px);
+  padding-top:10px; padding-bottom:calc(10px + env(safe-area-inset-bottom, 0px));
+  padding-left:max(16px, env(safe-area-inset-left, 0px)); padding-right:max(16px, env(safe-area-inset-right, 0px)); display:flex; justify-content:center}
+.fixed-cta .btn{width:100%; max-width:480px; padding:11px 16px; gap:8px; font-size:.9375rem; letter-spacing:0}
+body.has-fixed{padding-bottom:84px}
+
+.site-foot{background:var(--brand-deep); color:var(--white); text-align:center; font-size:var(--s-1); line-height:1.8; padding-block:24px;
+  padding-left:max(16px, env(safe-area-inset-left, 0px)); padding-right:max(16px, env(safe-area-inset-right, 0px)); display:grid; gap:6px}
+.site-foot .fine{color:var(--white); opacity:.8}
+
+.fade{animation:fade .35s ease both}
+@keyframes fade{from{transform:translateY(6px)} to{transform:none}}
+@media (prefers-reduced-motion: reduce){ .fade{animation:none} .btn,.bar span{transition:none} }
+
+/* ===== 編集モード ===== */
+body.editing{padding-top:var(--ed-h)}
+.editing [data-edit]{white-space:pre-wrap; outline:2px dashed color-mix(in srgb, var(--brand-2) 55%, transparent); outline-offset:3px; border-radius:4px; cursor:text; min-width:1em}
+.navy.band [data-edit], .hero [data-edit], .res-top .res-label[data-edit]{outline-color:rgba(255,255,255,.6)}
+.editing [data-edit]:hover{outline-style:solid}
+.editing [data-edit]:focus{outline:2px solid var(--cta); background:color-mix(in srgb, var(--marker) 30%, transparent)}
+.editing .list li, .editing .worries li{grid-template-columns:22px minmax(0,1fr) auto}
+.editing .worries li > span{flex:1 1 auto}
+.editing .benefits li{grid-template-columns:auto minmax(0,1fr) auto}
+.ed-msg[hidden],.ed-fab[hidden]{display:none}
+.editing .meta li{display:inline-flex; gap:6px; align-items:center}
+.x{appearance:none; border:0; cursor:pointer; width:24px; height:24px; border-radius:50%; background:var(--line); color:var(--ink); font:inherit; font-weight:700; line-height:1; display:grid; place-items:center; align-self:center}
+.x:hover{background:var(--cta); color:var(--white)}
+.add{appearance:none; cursor:pointer; font:inherit; font-size:var(--s-1); font-weight:700; color:var(--brand-2); background:var(--white); border:1.5px dashed var(--brand-2); border-radius:8px; padding:6px 12px; justify-self:start}
+.hero .add,.navy .add{justify-self:center}
+
+.ed-fab{position:fixed; z-index:40; right:max(16px, env(safe-area-inset-right, 0px)); bottom:calc(16px + env(safe-area-inset-bottom, 0px));
+  appearance:none; border:0; cursor:pointer; font:inherit; font-weight:700; font-size:var(--s-1); color:var(--ed-fg); background:var(--ed-bg); padding:10px 16px; border-radius:999px; box-shadow:0 6px 18px -6px rgba(0,0,0,.45)}
+body.has-fixed .ed-fab{bottom:calc(92px + env(safe-area-inset-bottom, 0px))}
+.ed-bar{position:fixed; z-index:60; top:0; left:0; right:0; background:var(--ed-bg); color:var(--ed-fg); font-size:var(--s-1); line-height:1.5;
+  padding-top:calc(8px + env(safe-area-inset-top, 0px)); padding-bottom:8px; padding-left:max(12px, env(safe-area-inset-left, 0px)); padding-right:max(12px, env(safe-area-inset-right, 0px)); display:grid; gap:8px; box-shadow:0 4px 16px -6px rgba(0,0,0,.4)}
+.ed-row{display:flex; flex-wrap:wrap; gap:8px; align-items:center; min-width:0}
+.ed-title{font-weight:900}
+.ed-status{color:var(--ed-mute)}
+.ed-status.dirty{color:var(--ed-warn); font-weight:700}
+.ed-spacer{flex:1 1 auto}
+.ed-btn{appearance:none; cursor:pointer; font:inherit; font-weight:700; color:var(--ed-fg); background:transparent; border:1px solid var(--ed-line); border-radius:8px; padding:6px 12px}
+.ed-btn:hover{border-color:var(--ed-mute)}
+.ed-btn.on{background:var(--ed-fg); color:var(--ed-bg); border-color:var(--ed-fg)}
+.ed-btn.primary{background:var(--cta); border-color:var(--cta); color:#fff}
+.ed-btn:disabled{opacity:.5; cursor:default}
+.ed-tabs{display:flex; gap:4px}
+.ed-sel{font:inherit; color:var(--ed-fg); background:var(--ed-bg); border:1px solid var(--ed-line); border-radius:8px; padding:5px 8px; max-width:100%}
+.ed-sel-wrap{display:flex; gap:4px; align-items:center; color:var(--ed-mute)}
+.ed-tip{color:var(--ed-mute)}
+.ed-tip code{color:var(--ed-fg); background:var(--ed-line); border-radius:4px; padding:0 4px; font-family:inherit}
+.ed-msg{background:color-mix(in srgb, var(--ed-warn) 18%, var(--ed-bg)); border:1px solid var(--ed-warn); border-radius:8px; padding:8px 10px; display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+.ed-msg.ok{background:color-mix(in srgb, #3FC79A 18%, var(--ed-bg)); border-color:#3FC79A}
+.ed-drawer{position:fixed; z-index:70; top:var(--ed-h); right:0; bottom:0; width:min(400px, 100%); background:var(--white); color:var(--ink); border-left:1px solid var(--line); box-shadow:-10px 0 30px -12px rgba(0,0,0,.35);
+  overflow-y:auto; padding-block:16px calc(24px + env(safe-area-inset-bottom, 0px)); padding-left:20px; padding-right:max(20px, env(safe-area-inset-right, 0px)); display:grid; gap:14px; align-content:start; font-size:var(--s-1)}
+.ed-drawer h2{font-size:var(--s1); font-weight:900}
+.ed-drawer-head{display:flex; justify-content:space-between; align-items:center; gap:8px}
+.ed-field{display:grid; gap:4px}
+.ed-field label{font-weight:700}
+.ed-field small{color:var(--ink-2)}
+.ed-field input[type=text], .ed-field input[type=url], .ed-field textarea{font:inherit; width:100%; padding:8px 10px; border:1px solid var(--line); border-radius:8px; color:var(--ink); background:var(--white)}
+.ed-colors{display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:10px}
+.ed-color{display:flex; gap:8px; align-items:center; border:1px solid var(--line); border-radius:8px; padding:6px 8px}
+.ed-color input[type=color]{width:34px; height:34px; border:0; padding:0; background:none; cursor:pointer; flex:none}
+.ed-color span{display:grid; line-height:1.3; min-width:0}
+.ed-color b{font-weight:700}
+.ed-color small{color:var(--ink-2); font-variant-numeric:tabular-nums}
+.ed-close{appearance:none; cursor:pointer; font:inherit; font-weight:700; border:1px solid var(--line); background:var(--white); color:var(--ink); border-radius:8px; padding:6px 12px}
+.ed-reset{appearance:none; cursor:pointer; font:inherit; font-size:.75rem; font-weight:700; color:var(--ink-2); background:none; border:0; text-decoration:underline; justify-self:start; padding:0}
+</style>
+<div id="root"></div>
+<script type="application/json" id="page-data">{"config":{"schoolName":"Loohcs志塾 上大岡校舎","schoolTag":"総合型選抜専門塾","ctaUrl":"https://loohcs-shijuku.com/#form","ctaLabel":"無料個別相談を予約する","lineUrl":"","lineLabel":"LINEで気軽に相談する","fixedLabel":"無料相談で、自分の可能性を聞いてみる","topLabel":"無料相談","ctaNotes":["相談は無料"],"siteUrl":""},"colors":{"brand":"#32576F","brand2":"#009EAA","cta":"#009EAA","marker":"#FBC661"},"text":{"hero":{"badge":"高校1・2年生のための 総合型選抜タイプ診断","title":"偏差値で、\n志望校を==あきらめていませんか?==","lead":"難関大への道は、一般入試だけではありません。総合型選抜なら、あなたの「好き」や「らしさ」が合格への武器になります。まずは、あなたの中に眠っている素質を確かめてみましょう！","meta":["約3分","登録なし・無料"],"button":"無料で診断をはじめる","micro":"実績や経験がなくても、誰でも診断できます"},"worries":{"en":"CHECK","title":"こんな気持ち、ありませんか?","items":["模試の判定を見て、行きたい大学をあきらめかけている","指定校推薦の見込みがない","自分には、アピールできることなんて何もない","部活や活動で、目立った実績がない"],"bubble":"ひとつでも当てはまったら、\nあなたにこそ知ってほしい入試があります。"},"compare":{"en":"WHAT'S 総合型選抜","title":"総合型選抜は、==「あなた」を見る入試==","col1":"一般入試","col2":"総合型選抜","rows":[{"label":"主に見られるもの","a":"学力試験の点数","b":"志望理由・活動・考える力・人柄"},{"label":"選考の方法","a":"筆記試験","b":"志望理由書・面接・小論文・プレゼンなど"},{"label":"勝負のしかた","a":"試験本番の一発勝負","b":"高1からの積み重ねを書類と面接で伝える"},{"label":"模試の偏差値","a":"合否の目安になる","b":"出願書類に書く欄は基本的にない"}],"note":"※大学・学部によっては、評定平均や英語資格、共通テストなどの条件がある場合があります。"},"typesSec":{"en":"4 TYPES","title":"診断でわかる、4つのタイプ","micro":"どのタイプにも、総合型選抜で戦える強みがあります。","button":"自分のタイプを診断する"},"result":{"label":"あなたの診断結果","note":"タイプは、いまのあなたの傾向です。経験を重ねると変わることもあります。どのタイプでも、総合型選抜で戦えます。","potEn":"POTENTIAL","potTitle":"あなたの中で、強く出た力","potNote":"回答の中で、あなたの中で相対的に強く表れた力を示しています。ほかの人との比較ではありません。","tagTop":"武器","tagOther":"伸びしろ","strengthsTitle":"総合型選抜で光るポイント","fieldsTitle":"相性のいい学びの分野","startEn":"LEVEL","startTitle":"あなたの現在地","caseEn":"MODEL CASE","caseTitle":"{タイプ名}×{レベル}の==合格モデル==","caseBefore":"スタート時点","caseSteps":"合格までに取り組んだこと","caseAfter":"結果","caseNote":"※総合型選抜で合格するまでの流れを、わかりやすく示したモデルケースです。実在の生徒の事例ではありません。","caseClose":"{タイプ名}のあなたにも、同じ道を歩める素質があります。","todoTitle":"{学年}の{タイプ名}が、今週からできること","roadEn":"ROADMAP","roadTitle":"{学年}から始める、==逆転合格==までの道のり","roadHelp":"ひとりでは難しいポイント","sampleEn":"SAMPLE","sampleTitle":"{タイプ名}の志望理由書、書き出し例","sampleNote":"この続きを書けるのは、あなた自身の経験だけです。"},"reversal":{"fact":"総合型選抜の出願書類に、模試の偏差値を書く欄は基本的にありません。大学が見るのは、あなたの志と、これまでとこれからです。","dream":{"kicker":"今の偏差値:{偏差値} のあなたへ","title":"その「無理かも」は、==一般入試のものさし==で測った話かもしれません。","body":"総合型選抜は、試験当日の点数だけで合否が決まる入試ではありません。{タイプ名}のあなたが持つ「{武器1}」と「{武器2}」は、志望理由書や面接でそのまま武器になります。一般入試ではあきらめかけていた大学にも、挑戦できる道があります。","note":"※大学によっては評定平均などの出願条件があるため、定期テストの勉強も大切にしましょう。"},"on":{"kicker":"難関大を目指すあなたへ","title":"一般入試だけでなく、==総合型選抜でもう1回チャンス==を。","body":"総合型選抜は、一般入試より早い時期に合否が出ることが多い入試です。{タイプ名}の強みを書類と面接で示せれば、第一志望への挑戦の機会を増やせます。","note":""},"undecided":{"kicker":"行きたい大学が、まだ決まっていないあなたへ","title":"志望校が決まっていない今こそ、==選択肢を広げるチャンス==です。","body":"総合型選抜の準備は、自分の「好き」や「気になる」を掘り下げることから始まります。その中で「この大学で、これを学びたい」が見つかる人は少なくありません。偏差値で選ぶのとは違う大学選びができます。","note":""},"unsure":{"kicker":"大学に行くか迷っているあなたへ","title":"大学に行く意味は、==準備の中で見つかる==こともあります。","body":"総合型選抜の準備では、自分が何に心を動かされるのかを言葉にしていきます。それは、進学するかどうかを決めるときにも、きっと役に立ちます。","note":""}},"levels":{"L1":{"sub":"伸びしろがいちばん大きい","name":"ポテンシャル型","text":"評定や実績は、これからでも大丈夫です。総合型選抜で語る経験の多くは、高1・高2のこれからの時間で作れます。大事なのは、やみくもに動くことではなく、自分のタイプに合った経験を「設計」すること。素質を武器に変えられれば、一般入試では届かないと思っていた大学も目指せます。"},"L2":{"sub":"土台はもう整っている","name":"チャレンジ型","text":"成績や経験の土台があるあなたは、強みをひとつにとがらせることで、難関大が射程に入ります。ここから差がつくのは、経験を志望校が求める学生像に合わせて「言葉」にする力です。書類と面接の完成度で、届く大学が大きく変わります。"},"L3":{"sub":"最難関も狙える位置","name":"難関大射程型","text":"評定・実績・資格がそろっている上位層です。最難関大の総合型選抜では、同じように実績のある受験生と比べられます。合否を分けるのは、志望理由や研究計画の「深さ」と「独自性」。実績を、あなたにしか語れないストーリーに仕上げましょう。"}},"roadmap":{"1":[{"when":"いま〜3か月","what":"自分の「好き」と「気になる」を棚卸しして、強みを見つける","help":true},{"when":"高1のあいだ","what":"興味のあるテーマで、小さく行動してみる","help":false},{"when":"高2","what":"活動を深めて、発表やコンテストなど外に出していく","help":false},{"when":"高3の春","what":"志望校の求める学生像を読みこみ、志望理由書を作る","help":true},{"when":"高3の夏〜秋","what":"書類の仕上げ、面接・小論文の練習、そして出願","help":true}],"2":[{"when":"いますぐ","what":"自分の強みと、取り組むテーマを決める","help":true},{"when":"高2のあいだ","what":"テーマに合った活動に、集中して取り組む","help":false},{"when":"高3の春","what":"志望校の求める学生像を読みこみ、志望理由書の骨組みを作る","help":true},{"when":"高3の夏","what":"書類を何度も書き直して仕上げ、面接・小論文の練習をする","help":true},{"when":"高3の秋〜","what":"出願・選考本番","help":false}]},"walls":{"en":"BUT…","title":"ひとりで始めると、\n多くの人がここでつまずきます","items":[{"no":"WALL 01","h":"自分の強みは、自分では気づきにくい","p":"当たり前にやっていることほど、価値に気づけません。第三者に引き出してもらうことで、はじめて武器になります。"},{"no":"WALL 02","h":"志望理由書は、一度では書けない","p":"経験を整理し、大学が求める学生像に合わせ、何度も書き直して完成します。客観的な添削が欠かせません。"},{"no":"WALL 03","h":"大学ごとに、求める人物像がちがう","p":"どの大学のどの学部が自分に合うのか。選考の特徴を調べて比べるには、情報と経験が必要です。"}],"closing":"まわりの多くが、まだ一般入試だけを見ている今。\nこの入試の可能性に==気づいたあなた==は、もう一歩先にいます。"},"cta":{"en":"FREE CONSULTATION","title":"あなたの可能性を、\n==プロと一緒に引き出そう。==","lead":"{タイプ名}のあなたに合う進め方を、{塾名}の講師が無料の個別相談で一緒に考えます。","benefits":["今回の診断をもとに、あなたの強みをさらに深掘り","あなたに合う大学・学部の総合型選抜を一緒に探す","{学年}の今からできる、合格までの準備プランを作成"]},"share":{"en":"SHARE","title":"友だちは何タイプ?","text":"総合型選抜タイプ診断の結果、私は「{タイプ名}」でした!武器は「{武器1}」と「{武器2}」。あなたは何タイプ? #総合型選抜タイプ診断"},"others":{"en":"OTHER TYPES","title":"ほかのタイプ","retry":"もう一度診断する"},"footer":{"note":"この診断は、総合型選抜の準備を考えるきっかけづくりのためのもので、合格を保証するものではありません。出願条件や選考方法は大学ごとに異なります。"}},"types":{"social":{"name":"社会デザイナー型","stamp":"社","catch":"まわりを巻き込み、状況を動かす人","desc":"「こうしたらもっと良くなるのに」と思ったら、口や手が先に動くタイプ。人を巻き込んで物事を前に進める力は、総合型選抜で評価されやすい大きな武器です。いまは社会問題に興味がなくても大丈夫。身近な「もっと良くできること」が、そのまま入試のテーマになります。","strengths":["実際に動いた経験を、具体的なエピソードで語れるようになる","人を巻き込んだ経験は、面接で話が広がりやすい","身近な課題から「大学で学びたいこと」へつなげやすい"],"fields":["総合政策","社会学","経済・経営","地域創生","国際関係","法学"],"todo":{"1":["学校や地域で「もっと良くできそう」と思うことを3つメモする","文化祭や委員会など、身近な企画に一つ手を挙げてみる","やったことを、写真と一言メモで記録し始める"],"2":["メモした中から、一番気になるテーマを一つ選ぶ","そのテーマで、自分が中心になる小さな活動を始める","活動の前と後で何が変わったかを、数字や人の声で残す"]},"opening":"私の住む町では、商店街のシャッターが年々増えている。その理由を確かめるため、私は店主の方々に話を聞きに行った。","cases":{"L1":{"title":"実績ゼロから、地元の商店街に挑んだAさん","before":["評定 3.4","模試の偏差値 45","校外活動なし"],"steps":["面談の中で「人を巻き込むのが好き」という自分の強みに気づく","商店街の空き店舗を使った、高校生カフェの企画を立ち上げる","活動で見えた地域の課題を、志望理由書の軸にまとめる"],"result":"難関私大の総合政策系学部に合格"},"L2":{"title":"部活の主将経験を、地域プロジェクトにつなげたBさん","before":["評定 3.9","模試の偏差値 55","部活の主将"],"steps":["主将として培った「チームを動かす力」を、強みとして言葉にする","部活の地域交流イベントを自ら企画し、参加者アンケートで成果を確かめる","大学での学びと結びつけ、面接で具体的に語れるまで練習する"],"result":"早慶レベルの難関私大 総合政策系学部に合格"},"L3":{"title":"生徒会での改革を、政策提言にまで高めたCさん","before":["評定 4.4","模試の偏差値 63","生徒会長・英検準1級"],"steps":["校則見直しの実績を、データと生徒の声で裏づける","高校生向けの政策コンテストに提言を応募し、入賞する","提言を、大学で取り組みたい研究計画へと発展させる"],"result":"最難関の国公立大 法・政策系学部に合格"}}},"research":{"name":"探究リサーチャー型","stamp":"探","catch":"「なぜ?」を深掘りして、答えを見つける人","desc":"気になったことを、納得するまで考え抜くタイプ。テストの点数とは別の「問いを立てる力」は、大学での学びそのものと相性抜群です。勉強が得意かどうかは関係ありません。あなたの「なんで?」が、志望理由書の芯になります。","strengths":["探究学習や自由研究の成果が、そのままアピール材料になる","小論文や面接で、筋道を立てて話せるようになる","大学の研究内容と、自分の問いを結びつけやすい"],"fields":["理学","工学","情報","医療・薬学","人文学","環境学"],"todo":{"1":["「なんで?」と思ったことを、スマホのメモに書きためる","そのうち一つについて、本や記事を1つ読んでみる","学校の探究の授業で、本気で取り組めるテーマを選ぶ"],"2":["書きためた「なんで?」から、テーマを一つに絞る","調べたり、実際に確かめたりして、自分なりの答えを出す","校外の発表会やコンテストに出せる形にまとめる"]},"opening":"なぜ同じ川なのに、上流と下流で生き物の種類がこんなにも違うのか。小学生のときに抱いたこの疑問が、私の探究の出発点である。","cases":{"L1":{"title":"「なんで?」のメモから研究を始めたDさん","before":["評定 3.5","模試の偏差値 47","校外活動なし"],"steps":["毎日書きためた「なんで?」から、近所の川の水質というテーマを見つける","市販の検査キットで半年間データをとり、結果をまとめる","高校生向けの発表会でポスター発表し、その経験を志望理由にする"],"result":"難関私大の理工系学部に合格"},"L2":{"title":"探究の授業を、校外での発表につなげたEさん","before":["評定 4.0","模試の偏差値 56","授業で探究に取り組んだ"],"steps":["授業の探究テーマを、大学の研究分野と結びつけて深掘りする","大学の先生の論文を読み、仮説を立て直して追加で調べる","校外の研究発表会で発表し、質疑応答の経験を面接に生かす"],"result":"早慶レベルの難関私大 環境・情報系学部に合格"},"L3":{"title":"課題研究を、学会発表のレベルまで仕上げたFさん","before":["評定 4.5","模試の偏差値 65","科学コンテスト出場・英検準1級"],"steps":["研究の新しさと意義を、第三者の視点で磨き直す","高校生向けの学会で発表し、専門家から講評を受ける","大学で取り組みたい研究計画書を完成させる"],"result":"最難関の国公立大 理学系学部に合格"}}},"create":{"name":"ものづくりクリエイター型","stamp":"創","catch":"アイデアを、形にして届ける人","desc":"頭の中のイメージを、目に見える形にするのが好きなタイプ。こだわって作ったものは、それ自体が何よりの実力の証拠になります。賞をとった経験がなくても大丈夫。これから作るものが、あなたのポートフォリオになります。","strengths":["作品やポートフォリオで、実力を目に見える形で示せる","試して、直して、また作った経験を語れる","自分らしさのある志望理由を作りやすい"],"fields":["デザイン","情報・プログラミング","建築","メディア","芸術","工学"],"todo":{"1":["これまで作ったもの(絵、動画、料理、何でも)を写真で集める","好きな作品やサービスが「なぜ良いのか」を言葉にしてみる","新しい道具(アプリ、ソフト、画材など)に一つ挑戦する"],"2":["身近な誰かの「困った」を解決するものを一つ作る","作ったものを人に使ってもらい、感想をもらう","作品をまとめたポートフォリオを作り始める"]},"opening":"祖母がスマートフォンの操作に困る姿を見て、私は誰にでも使いやすいアプリを作りたいと考えた。最初の試作品は、まったく使ってもらえなかった。","cases":{"L1":{"title":"趣味のイラストを、作品集に変えたGさん","before":["評定 3.3","模試の偏差値 44","校外活動なし"],"steps":["好きで描いていたイラストに「誰のための作品か」という視点を加える","地域の子ども向けに、防災を伝える絵本を制作する","制作の過程と工夫をポートフォリオにまとめ、面接でプレゼンする"],"result":"難関私大のデザイン・メディア系学部に合格"},"L2":{"title":"アプリ制作で、身近な不便を解決したHさん","before":["評定 3.8","模試の偏差値 54","プログラミングを独学"],"steps":["祖父母の「スマホが使いにくい」という声をヒントに、アプリを試作する","実際に使ってもらい、改善を何度もくり返す","試作と改善の記録を、志望理由書の具体例にする"],"result":"早慶レベルの難関私大 情報系学部に合格"},"L3":{"title":"入賞作品を、研究テーマに発展させたIさん","before":["評定 4.3","模試の偏差値 62","デザインコンテスト入賞・英検2級"],"steps":["入賞作品の背景にある問題意識を言葉にする","作品を社会で役立てるための計画を、大学の研究室と結びつける","プレゼン選考に向けて、作品と論理の両面で完成度を高める"],"result":"最難関私大の建築・デザイン系学部に合格"}}},"support":{"name":"寄りそいサポーター型","stamp":"寄","catch":"人の気持ちに気づき、支える人","desc":"人の話をじっくり聞き、相手の立場で考えられるタイプ。目立つ実績がなくても、人と関わってきた日常の中に、説得力のある志望理由の種が眠っています。その種に気づけるかどうかが勝負です。","strengths":["面接で、人柄や誠実さが伝わりやすい","身近な人との関わりから、深いテーマを見つけられる","教育・福祉・心理など、人に関わる分野と結びつけやすい"],"fields":["教育","心理学","社会福祉","看護","保育","国際協力"],"todo":{"1":["人の役に立てた経験、立てなかった経験を書き出す","学習支援や子ども向けのイベントなど、人と関わる場に行ってみる","気になる仕事をしている人に、話を聞いてみる"],"2":["関わりたい「相手」と、その人の「困りごと」を一つに絞る","その相手と関わる活動を続け、気づいたことを記録する","その困りごとを学問として学べる学部を比べてみる"]},"opening":"学校に来られなくなった友人が、ある先生の一言で教室に戻ってきた。言葉ひとつで人は変われる。そのことを、私は友人から教わった。","cases":{"L1":{"title":"人の話を聞く力を、強みに変えたJさん","before":["評定 3.6","模試の偏差値 46","校外活動なし"],"steps":["友だちの相談に乗ることが多い、という日常から自分の強みを見つける","地域の学習支援ボランティアに参加し、子どもとの関わりを記録する","「学びたいのに学べない子」という課題を、志望理由の軸にする"],"result":"難関私大の教育学系学部に合格"},"L2":{"title":"ボランティア経験を、課題意識につなげたKさん","before":["評定 4.0","模試の偏差値 53","福祉施設でのボランティア"],"steps":["ボランティアで感じた違和感を、社会の課題としてとらえ直す","当事者や職員の方へのインタビューで、課題を具体的にする","大学で学びたいことと将来像を、一本の線でつなげる"],"result":"早慶レベルの難関私大 人間科学系学部に合格"},"L3":{"title":"海外ボランティアの経験を、研究計画にしたLさん","before":["評定 4.5","模試の偏差値 64","海外ボランティア・英検準1級"],"steps":["海外での経験を、教育格差という研究テーマに整理する","英語での面接やプレゼンに向けて練習を重ねる","大学の研究と自分の問いを結びつけた研究計画書を完成させる"],"result":"最難関の国公立大 国際・教育系学部に合格"}}}},"questions":{"common":[{"kind":"grade","section":"まずは、いまのあなた","text":"いまの学年は?","options":[{"label":"高校1年生","v":"1"},{"label":"高校2年生","v":"2"}]},{"kind":"bunri","section":"まずは、いまのあなた","text":"文系と理系、どちらに近い?","hint":"まだ決まっていなくても大丈夫です。","options":[{"label":"文系","v":"bun"},{"label":"理系","v":"ri"},{"label":"まだ決めていない・どちらも気になる","v":"both"}]},{"kind":"hyotei","section":"まずは、いまのあなた","text":"通知表の成績(評定平均)は、5段階でだいたいどのくらい?","hint":"まだ高校の成績が出ていない場合は、中学のときの感覚で大丈夫です。","options":[{"label":"4.3以上","lv":3},{"label":"3.8〜4.2","lv":2},{"label":"3.5〜3.7","lv":1},{"label":"3.5未満","lv":0},{"label":"わからない","lv":1}]},{"kind":"dev","section":"まずは、いまのあなた","text":"模試の偏差値は、だいたいどのくらい?","hint":"正直に答えてOK。低くても、総合型選抜では十分に挑戦できます。","options":[{"label":"60以上","v":"high","lv":2},{"label":"50〜59","v":"mid","lv":1},{"label":"50未満","v":"low","lv":0},{"label":"受けたことがない・わからない","v":"unknown","lv":0}]},{"kind":"exp","section":"まずは、いまのあなた","text":"部活や授業以外の活動・実績で、一番近いものは?","hint":"なくても大丈夫です。これから作れます。","options":[{"label":"大会やコンテストでの入賞、または1年以上続けている活動がある","v":2,"lv":2},{"label":"校外の活動やイベントに参加したことがある","v":1,"lv":1},{"label":"ほとんどない","v":0,"lv":0}]},{"kind":"eng","section":"まずは、いまのあなた","text":"英語の資格は持っている?","options":[{"label":"英検2級以上(または同じくらいのレベル)","lv":2},{"label":"英検準2級","lv":1},{"label":"3級以下・持っていない","lv":0}]},{"kind":"goal","section":"まずは、いまのあなた","text":"行きたい大学について、本音に一番近いのは?","options":[{"label":"難関大に行けたらいいけど、今の成績じゃ無理だと思う","v":"dream"},{"label":"難関大を目指していて、届きそう","v":"on"},{"label":"行きたい大学は、まだ決まっていない","v":"undecided"},{"label":"大学に行くかどうかも迷っている","v":"unsure"}]}],"basic":[{"kind":"type","section":"あなたの素質","text":"YouTubeやSNSで、ついつい見てしまうのは?","options":[{"label":"「なぜ〇〇なのか」「〇〇の裏側」みたいな解説","t":"research","tr":["好奇心"]},{"label":"何かを作る・描く・料理する動画","t":"create","tr":["発想力"]},{"label":"誰かの人生や、悩み相談の話","t":"support","tr":["共感力"]},{"label":"誰かが企画に挑戦したり、何かを仕掛けたりする動画","t":"social","tr":["行動力"]}]},{"kind":"type","section":"あなたの素質","text":"納得できない校則があったら、どうしたくなる?","options":[{"label":"先生や生徒会に「変えませんか」と言ってみたくなる","t":"social","tr":["行動力","伝える力"]},{"label":"そもそも何のためのルールなのか、知りたくなる","t":"research","tr":["好奇心"]},{"label":"もっといいルールを、自分で考えてみたくなる","t":"create","tr":["発想力"]},{"label":"困っている友だちがいないか、気になる","t":"support","tr":["共感力"]}]},{"kind":"type","section":"あなたの素質","text":"友だちに頼まれがちなのは?","options":[{"label":"遊びや打ち上げの段取り","t":"social","tr":["行動力"]},{"label":"わからないところの説明","t":"research","tr":["伝える力","好奇心"]},{"label":"写真の加工や、動画・イラスト","t":"create","tr":["発想力"]},{"label":"恋愛や人間関係の相談","t":"support","tr":["共感力"]}]},{"kind":"type","section":"あなたの素質","text":"退屈な授業中、頭の中で考えていることは?","options":[{"label":"話から脱線して「そもそも、なんで?」","t":"research","tr":["好奇心"]},{"label":"落書きや、何かのアイデア","t":"create","tr":["発想力"]},{"label":"放課後や週末に何をするか","t":"social","tr":["行動力"]},{"label":"あの子、最近元気ないな…など人のこと","t":"support","tr":["共感力"]}]},{"kind":"type","tie":true,"section":"あなたの素質","text":"魔法で、ひとつだけ何かを変えられるとしたら?","options":[{"label":"住んでいる町や学校の、不便なところ","t":"social","tr":["行動力"]},{"label":"誰も答えを知らない謎の、答えを知る","t":"research","tr":["好奇心"]},{"label":"世界にまだない、便利なものを生み出す","t":"create","tr":["発想力"]},{"label":"苦しんでいる誰かの、悩みを消す","t":"support","tr":["共感力"]}]},{"kind":"type","section":"あなたの素質","text":"ゲームや遊びでの、あなたのスタイルは?","options":[{"label":"仲間を集めて、チームで勝ちにいく","t":"social","tr":["行動力","伝える力"]},{"label":"攻略法を研究し尽くす","t":"research","tr":["好奇心"]},{"label":"キャラや部屋を、自分好みにこだわって作る","t":"create","tr":["発想力"]},{"label":"初心者に教えたり、みんなが楽しめているか気にする","t":"support","tr":["共感力","伝える力"]}]},{"kind":"type","section":"あなたの素質","text":"何かに失敗したとき、あなたは?","options":[{"label":"とりあえず、すぐ次の手を打つ","t":"social","tr":["行動力"]},{"label":"なんでダメだったのか、原因を考える","t":"research","tr":["好奇心"]},{"label":"やり方を変えて、作り直してみる","t":"create","tr":["発想力"]},{"label":"誰かに話して、気持ちを整理する","t":"support","tr":["共感力","伝える力"]}]},{"kind":"type","section":"あなたの素質","text":"言われて一番うれしいのは?","options":[{"label":"「行動力あるね」","t":"social","tr":["行動力"]},{"label":"「よく気づくね」「詳しいね」","t":"research","tr":["好奇心"]},{"label":"「センスあるね」「おもしろいね」","t":"create","tr":["発想力"]},{"label":"「あなたがいてくれてよかった」","t":"support","tr":["共感力"]}]}],"advanced":[{"kind":"type","section":"あなたの素質","text":"探究や課題研究でテーマを選ぶなら、どのスタイル?","options":[{"label":"仮説を立てて、調査や実験で確かめる研究","t":"research","tr":["好奇心"]},{"label":"地域や社会の課題を解決するプロジェクト","t":"social","tr":["行動力"]},{"label":"当事者へのインタビューや支援を通じて考える","t":"support","tr":["共感力"]},{"label":"作品やサービスを作って、使ってもらって検証する","t":"create","tr":["発想力"]}]},{"kind":"type","section":"あなたの素質","text":"気になるニュースを見たとき、最初に考えることは?","options":[{"label":"解決するために、自分に何ができるか","t":"social","tr":["行動力"]},{"label":"背景やデータを調べて、本当の原因を知りたい","t":"research","tr":["好奇心"]},{"label":"これを解決する、新しい仕組みやサービスのアイデア","t":"create","tr":["発想力"]},{"label":"その出来事に関わる人が、どんな気持ちでいるか","t":"support","tr":["共感力"]}]},{"kind":"type","section":"あなたの素質","text":"自分から手に取りたくなる本や記事は?","options":[{"label":"デザインや技術、ものづくりの本","t":"create","tr":["発想力"]},{"label":"心理や教育、人の生き方についての本","t":"support","tr":["共感力"]},{"label":"新しい研究や学問をわかりやすく解説した新書","t":"research","tr":["好奇心"]},{"label":"社会を動かしたリーダーや起業家の話","t":"social","tr":["行動力"]}]},{"kind":"type","section":"あなたの素質","text":"チームで成果を出したとき、あなたが一番貢献したのは?","options":[{"label":"方向性を決めて、メンバーを動かしたこと","t":"social","tr":["行動力","伝える力"]},{"label":"情報を集めて、根拠を示したこと","t":"research","tr":["好奇心","伝える力"]},{"label":"アイデアを出して、形にしたこと","t":"create","tr":["発想力"]},{"label":"メンバーの意見を聞いて、チームをまとめたこと","t":"support","tr":["共感力"]}]},{"kind":"type","tie":true,"section":"あなたの素質","text":"大学で一番やってみたいことは?","options":[{"label":"研究室で、一つのテーマを深く研究する","t":"research","tr":["好奇心"]},{"label":"現場での実習やボランティアで、人と関わる","t":"support","tr":["共感力"]},{"label":"フィールドワークで、社会の課題に取り組む","t":"social","tr":["行動力"]},{"label":"仲間と制作やものづくりのプロジェクトを進める","t":"create","tr":["発想力"]}]},{"kind":"type","section":"あなたの素質","text":"面接で「あなたの強みは?」と聞かれたら、一番自信を持って言えるのは?","options":[{"label":"まわりを巻き込んで、物事を前に進める力","t":"social","tr":["行動力","伝える力"]},{"label":"物事を分析して、筋道を立てて考える力","t":"research","tr":["好奇心"]},{"label":"人とは違う視点で、アイデアを生み出す力","t":"create","tr":["発想力"]},{"label":"相手の話を聞いて、気持ちをくみ取る力","t":"support","tr":["共感力"]}]},{"kind":"type","section":"あなたの素質","text":"小論文のテーマで、一番書きやすそうなのは?","options":[{"label":"テクノロジーと表現・デザインの未来","t":"create","tr":["発想力"]},{"label":"地域活性化とまちづくり","t":"social","tr":["行動力"]},{"label":"教育・福祉と、多様性のある社会","t":"support","tr":["共感力"]},{"label":"科学技術の進歩と、社会への影響","t":"research","tr":["好奇心"]}]},{"kind":"type","section":"あなたの素質","text":"将来、仕事で実現したいことに一番近いのは?","options":[{"label":"人の人生や成長を支える","t":"support","tr":["共感力"]},{"label":"世の中にまだないものを作る","t":"create","tr":["発想力"]},{"label":"社会の仕組みを変える","t":"social","tr":["行動力"]},{"label":"新しい知識や発見を生み出す","t":"research","tr":["好奇心"]}]}],"end":[{"kind":"talk","section":"さいごに","text":"自分の考えを人に話すのは?","options":[{"label":"わりと得意","v":2},{"label":"ふつう","v":1},{"label":"苦手","v":0}]}]}}</script>
+<script id="app-script">
+(function () {
+/* ============================================================
+   初期の内容(編集モードで保存すると、下の page-data に保存された内容が優先されます)
+   ============================================================ */
+const DEFAULTS = {
+  config: {
+    schoolName: "Loohcs志塾 上大岡校舎",
+    schoolTag: "総合型選抜専門塾",
+    ctaUrl: "https://loohcs-shijuku.com/#form",
+    ctaLabel: "無料個別相談を予約する",
+    lineUrl: "",
+    lineLabel: "LINEで気軽に相談する",
+    fixedLabel: "無料相談で、自分の可能性を聞いてみる",
+    topLabel: "無料相談",
+    ctaNotes: ["相談は無料"],
+    siteUrl: ""
+  },
+  colors: { brand: "#32576F", brand2: "#009EAA", cta: "#009EAA", marker: "#FBC661" },
+  text: {
+    hero: {
+      badge: "高校1・2年生のための 総合型選抜タイプ診断",
+      title: "偏差値で、\n志望校を==あきらめていませんか?==",
+      lead: "難関大への道は、一般入試だけではありません。総合型選抜なら、あなたの「好き」や「らしさ」が合格への武器になります。まずは、あなたの中に眠っている素質を確かめてみましょう。",
+      meta: ["全16問", "約3分", "登録なし・無料"],
+      button: "無料で診断をはじめる",
+      micro: "実績や経験がなくても診断できます"
+    },
+    worries: {
+      en: "CHECK", title: "こんな気持ち、ありませんか?",
+      items: ["模試の判定を見て、行きたい大学をあきらめかけている", "大学に行く方法は、一般入試しかないと思っている", "自分には、アピールできることなんて何もない", "部活や活動で、目立った実績がない"],
+      bubble: "ひとつでも当てはまったら、\nあなたにこそ知ってほしい入試があります。"
+    },
+    compare: {
+      en: "WHAT'S 総合型選抜", title: "総合型選抜は、==「あなた」を見る入試==",
+      col1: "一般入試", col2: "総合型選抜",
+      rows: [
+        { label: "主に見られるもの", a: "学力試験の点数", b: "志望理由・活動・考える力・人柄" },
+        { label: "選考の方法", a: "筆記試験", b: "志望理由書・面接・小論文・プレゼンなど" },
+        { label: "勝負のしかた", a: "試験本番の一発勝負", b: "高1からの積み重ねを書類と面接で伝える" },
+        { label: "模試の偏差値", a: "合否の目安になる", b: "出願書類に書く欄は基本的にない" }
+      ],
+      note: "※大学・学部によっては、評定平均や英語資格、共通テストなどの条件がある場合があります。"
+    },
+    typesSec: { en: "4 TYPES", title: "診断でわかる、4つのタイプ", micro: "どのタイプにも、総合型選抜で戦える強みがあります。", button: "自分のタイプを診断する" },
+    result: {
+      label: "あなたの診断結果",
+      note: "タイプは、いまのあなたの傾向です。経験を重ねると変わることもあります。どのタイプでも、総合型選抜で戦えます。",
+      potEn: "POTENTIAL", potTitle: "あなたの中で、強く出た力",
+      potNote: "回答の中で、あなたの中で相対的に強く表れた力を示しています。ほかの人との比較ではありません。",
+      tagTop: "武器", tagOther: "伸びしろ",
+      strengthsTitle: "総合型選抜で光るポイント", fieldsTitle: "相性のいい学びの分野",
+      startEn: "LEVEL", startTitle: "あなたの現在地",
+      caseEn: "MODEL CASE", caseTitle: "{タイプ名}×{レベル}の==合格モデル==",
+      caseBefore: "スタート時点", caseSteps: "合格までに取り組んだこと", caseAfter: "結果",
+      caseNote: "※総合型選抜で合格するまでの流れを、わかりやすく示したモデルケースです。実在の生徒の事例ではありません。",
+      caseClose: "{タイプ名}のあなたにも、同じ道を歩める素質があります。",
+      todoTitle: "{学年}の{タイプ名}が、今週からできること",
+      roadEn: "ROADMAP", roadTitle: "{学年}から始める、==逆転合格==までの道のり", roadHelp: "ひとりでは難しいポイント",
+      sampleEn: "SAMPLE", sampleTitle: "{タイプ名}の志望理由書、書き出し例", sampleNote: "この続きを書けるのは、あなた自身の経験だけです。"
+    },
+    reversal: {
+      fact: "総合型選抜の出願書類に、模試の偏差値を書く欄は基本的にありません。大学が見るのは、あなたの志と、これまでとこれからです。",
+      dream: {
+        kicker: "今の偏差値:{偏差値} のあなたへ",
+        title: "その「無理かも」は、==一般入試のものさし==で測った話かもしれません。",
+        body: "総合型選抜は、試験当日の点数だけで合否が決まる入試ではありません。{タイプ名}のあなたが持つ「{武器1}」と「{武器2}」は、志望理由書や面接でそのまま武器になります。一般入試ではあきらめかけていた大学にも、挑戦できる道があります。",
+        note: "※大学によっては評定平均などの出願条件があるため、定期テストの勉強も大切にしましょう。"
+      },
+      on: {
+        kicker: "難関大を目指すあなたへ",
+        title: "一般入試だけでなく、==総合型選抜でもう1回チャンス==を。",
+        body: "総合型選抜は、一般入試より早い時期に合否が出ることが多い入試です。{タイプ名}の強みを書類と面接で示せれば、第一志望への挑戦の機会を増やせます。",
+        note: ""
+      },
+      undecided: {
+        kicker: "行きたい大学が、まだ決まっていないあなたへ",
+        title: "志望校が決まっていない今こそ、==選択肢を広げるチャンス==です。",
+        body: "総合型選抜の準備は、自分の「好き」や「気になる」を掘り下げることから始まります。その中で「この大学で、これを学びたい」が見つかる人は少なくありません。偏差値で選ぶのとは違う大学選びができます。",
+        note: ""
+      },
+      unsure: {
+        kicker: "大学に行くか迷っているあなたへ",
+        title: "大学に行く意味は、==準備の中で見つかる==こともあります。",
+        body: "総合型選抜の準備では、自分が何に心を動かされるのかを言葉にしていきます。それは、進学するかどうかを決めるときにも、きっと役に立ちます。",
+        note: ""
+      }
+    },
+    levels: {
+      L1: { sub: "伸びしろがいちばん大きい", name: "ポテンシャル型", text: "評定や実績は、これからでも大丈夫です。総合型選抜で語る経験の多くは、高1・高2のこれからの時間で作れます。大事なのは、やみくもに動くことではなく、自分のタイプに合った経験を「設計」すること。素質を武器に変えられれば、一般入試では届かないと思っていた大学も目指せます。" },
+      L2: { sub: "土台はもう整っている", name: "チャレンジ型", text: "成績や経験の土台があるあなたは、強みをひとつにとがらせることで、難関大が射程に入ります。ここから差がつくのは、経験を志望校が求める学生像に合わせて「言葉」にする力です。書類と面接の完成度で、届く大学が大きく変わります。" },
+      L3: { sub: "最難関も狙える位置", name: "難関大射程型", text: "評定・実績・資格がそろっている上位層です。最難関大の総合型選抜では、同じように実績のある受験生と比べられます。合否を分けるのは、志望理由や研究計画の「深さ」と「独自性」。実績を、あなたにしか語れないストーリーに仕上げましょう。" }
+    },
+    roadmap: {
+      "1": [
+        { when: "いま〜3か月", what: "自分の「好き」と「気になる」を棚卸しして、強みを見つける", help: true },
+        { when: "高1のあいだ", what: "興味のあるテーマで、小さく行動してみる", help: false },
+        { when: "高2", what: "活動を深めて、発表やコンテストなど外に出していく", help: false },
+        { when: "高3の春", what: "志望校の求める学生像を読みこみ、志望理由書を作る", help: true },
+        { when: "高3の夏〜秋", what: "書類の仕上げ、面接・小論文の練習、そして出願", help: true }
+      ],
+      "2": [
+        { when: "いますぐ", what: "自分の強みと、取り組むテーマを決める", help: true },
+        { when: "高2のあいだ", what: "テーマに合った活動に、集中して取り組む", help: false },
+        { when: "高3の春", what: "志望校の求める学生像を読みこみ、志望理由書の骨組みを作る", help: true },
+        { when: "高3の夏", what: "書類を何度も書き直して仕上げ、面接・小論文の練習をする", help: true },
+        { when: "高3の秋〜", what: "出願・選考本番", help: false }
+      ]
+    },
+    walls: {
+      kicker: "「こんなの、自分には無理かも」と思ったあなたへ",
+      en: "BUT…", title: "ひとりで始めると、\n多くの人がここでつまずきます",
+      lead: "合格する人も、最初からひとりで全部できるわけではありません。つまずくポイントは、みんな同じです。",
+      items: [
+        { no: "WALL 01", h: "自分の強みは、自分では気づきにくい", p: "当たり前にやっていることほど、価値に気づけません。第三者に引き出してもらうことで、はじめて武器になります。" },
+        { no: "WALL 02", h: "志望理由書は、一度では書けない", p: "経験を整理し、大学が求める学生像に合わせ、何度も書き直して完成します。客観的な添削が欠かせません。" },
+        { no: "WALL 03", h: "大学ごとに、求める人物像がちがう", p: "どの大学のどの学部が自分に合うのか。選考の特徴を調べて比べるには、情報と経験が必要です。" }
+      ],
+      closing: "まわりの多くが、まだ一般入試だけを見ている今。\nこの入試の可能性に==気づいたあなた==は、もう一歩先にいます。"
+    },
+    cta: {
+      en: "FREE CONSULTATION", title: "あなたの可能性を、\n==プロと一緒に引き出そう。==",
+      lead: "{タイプ名}のあなたに合う進め方を、{塾名}の講師が無料の個別相談で一緒に考えます。",
+      benefits: ["今回の診断をもとに、あなたの強みをさらに深掘り", "あなたに合う大学・学部の総合型選抜を一緒に探す", "{学年}の今からできる、合格までの準備プランを作成"]
+    },
+    share: { en: "SHARE", title: "友だちは何タイプ?", text: "総合型選抜タイプ診断の結果、私は「{タイプ名}」でした!武器は「{武器1}」と「{武器2}」。あなたは何タイプ? #総合型選抜タイプ診断" },
+    others: { en: "OTHER TYPES", title: "ほかのタイプ", retry: "もう一度診断する" },
+    footer: { note: "この診断は、総合型選抜の準備を考えるきっかけづくりのためのもので、合格を保証するものではありません。出願条件や選考方法は大学ごとに異なります。" }
+  },
+  types: {
+    social: {
+      name: "社会デザイナー型", stamp: "社",
+      fieldsBy: {"bun": ["総合政策", "法学", "経済・経営", "社会学", "国際関係", "地域創生"], "ri": ["都市工学・まちづくり", "環境学", "情報・データサイエンス", "建築", "農学・地域資源", "公衆衛生"]},
+      casesAlt: {"L1": {"title": "通学路の不便を、データで解決したMさん", "before": ["評定 3.4", "模試の偏差値 45", "校外活動なし"], "steps": ["通学路の危ない場所が気になる、という日常の違和感を出発点にする", "地域の人にアンケートをとり、危ない場所を地図にまとめる", "結果を市役所に届けた経験を、まちづくりを学ぶ理由にする"], "result": "難関私大の理工系学部(まちづくり分野)に合格"}, "L2": {"title": "部活の主将経験を、データ分析につなげたNさん", "before": ["評定 3.9", "模試の偏差値 55", "部活の主将"], "steps": ["チームの練習記録を集め、データで課題を見つける", "分析をもとに練習方法を変え、成果を数字で確かめる", "「データで人や組織を動かす」という学びたいテーマを言葉にする"], "result": "早慶レベルの難関私大 情報・データサイエンス系学部に合格"}, "L3": {"title": "地域の水害リスクを、技術と制度の両面から考えたOさん", "before": ["評定 4.4", "模試の偏差値 63", "環境系コンテスト入賞・英検準1級"], "steps": ["地域の水害リスクを調べ、自治体の担当者に話を聞く", "技術と制度の両面から解決策をまとめ、提案として発表する", "大学で取り組みたい研究計画書に仕上げる"], "result": "最難関の国公立大 工学系学部(環境・都市分野)に合格"}},
+      catch: "まわりを巻き込み、状況を動かす人",
+      desc: "「こうしたらもっと良くなるのに」と思ったら、口や手が先に動くタイプ。人を巻き込んで物事を前に進める力は、総合型選抜で評価されやすい大きな武器です。いまは社会問題に興味がなくても大丈夫。身近な「もっと良くできること」が、そのまま入試のテーマになります。",
+      strengths: ["実際に動いた経験を、具体的なエピソードで語れるようになる", "人を巻き込んだ経験は、面接で話が広がりやすい", "身近な課題から「大学で学びたいこと」へつなげやすい"],
+      fields: ["総合政策", "社会学", "経済・経営", "地域創生", "国際関係", "法学"],
+      todo: {
+        "1": ["学校や地域で「もっと良くできそう」と思うことを3つメモする", "文化祭や委員会など、身近な企画に一つ手を挙げてみる", "やったことを、写真と一言メモで記録し始める"],
+        "2": ["メモした中から、一番気になるテーマを一つ選ぶ", "そのテーマで、自分が中心になる小さな活動を始める", "活動の前と後で何が変わったかを、数字や人の声で残す"]
+      },
+      opening: "私の住む町では、商店街のシャッターが年々増えている。その理由を確かめるため、私は店主の方々に話を聞きに行った。",
+      cases: {
+        L1: { title: "実績ゼロから、地元の商店街に挑んだAさん", before: ["評定 3.4", "模試の偏差値 45", "校外活動なし"],
+          steps: ["面談の中で「人を巻き込むのが好き」という自分の強みに気づく", "商店街の空き店舗を使った、高校生カフェの企画を立ち上げる", "活動で見えた地域の課題を、志望理由書の軸にまとめる"], result: "難関私大の総合政策系学部に合格" },
+        L2: { title: "部活の主将経験を、地域プロジェクトにつなげたBさん", before: ["評定 3.9", "模試の偏差値 55", "部活の主将"],
+          steps: ["主将として培った「チームを動かす力」を、強みとして言葉にする", "部活の地域交流イベントを自ら企画し、参加者アンケートで成果を確かめる", "大学での学びと結びつけ、面接で具体的に語れるまで練習する"], result: "早慶レベルの難関私大 総合政策系学部に合格" },
+        L3: { title: "生徒会での改革を、政策提言にまで高めたCさん", before: ["評定 4.4", "模試の偏差値 63", "生徒会長・英検準1級"],
+          steps: ["校則見直しの実績を、データと生徒の声で裏づける", "高校生向けの政策コンテストに提言を応募し、入賞する", "提言を、大学で取り組みたい研究計画へと発展させる"], result: "最難関の国公立大 法・政策系学部に合格" }
+      }
+    },
+    research: {
+      name: "探究リサーチャー型", stamp: "探",
+      fieldsBy: {"bun": ["文学・歴史学", "心理学", "社会学", "教育学", "言語学", "哲学"], "ri": ["理学", "工学", "情報", "医療・薬学", "生命科学", "環境学"]},
+      casesAlt: {"L1": {"title": "地名の「なんで?」から、地元の歴史を調べたPさん", "before": ["評定 3.5", "模試の偏差値 47", "校外活動なし"], "steps": ["地名の由来が気になった、という小さな疑問をテーマにする", "図書館の資料や、地域のお年寄りへの聞き取りで調べる", "調べたことを冊子にまとめ、その過程を志望理由にする"], "result": "難関私大の文学部(歴史学系)に合格"}, "L2": {"title": "探究の授業を、言葉の研究につなげたQさん", "before": ["評定 4.0", "模試の偏差値 56", "授業で探究に取り組んだ"], "steps": ["SNSの言葉づかいの変化という探究テーマを、言語学と結びつける", "アンケートと文献で仮説を確かめ、論文の形にまとめる", "校外の発表会で発表し、質疑応答の経験を面接に生かす"], "result": "早慶レベルの難関私大 文学・言語系学部に合格"}, "L3": {"title": "課題研究を、社会調査のレベルまで仕上げたRさん", "before": ["評定 4.5", "模試の偏差値 65", "論文コンテスト入賞・英検準1級"], "steps": ["若者の政治参加をテーマに、統計データと聞き取りで研究する", "論文コンテストに応募し、専門家から講評を受ける", "大学で取り組みたい研究計画書を完成させる"], "result": "最難関の国公立大 社会学・法学系学部に合格"}},
+      catch: "「なぜ?」を深掘りして、答えを見つける人",
+      desc: "気になったことを、納得するまで考え抜くタイプ。テストの点数とは別の「問いを立てる力」は、大学での学びそのものと相性抜群です。勉強が得意かどうかは関係ありません。あなたの「なんで?」が、志望理由書の芯になります。",
+      strengths: ["探究学習や自由研究の成果が、そのままアピール材料になる", "小論文や面接で、筋道を立てて話せるようになる", "大学の研究内容と、自分の問いを結びつけやすい"],
+      fields: ["理学", "工学", "情報", "医療・薬学", "人文学", "環境学"],
+      todo: {
+        "1": ["「なんで?」と思ったことを、スマホのメモに書きためる", "そのうち一つについて、本や記事を1つ読んでみる", "学校の探究の授業で、本気で取り組めるテーマを選ぶ"],
+        "2": ["書きためた「なんで?」から、テーマを一つに絞る", "調べたり、実際に確かめたりして、自分なりの答えを出す", "校外の発表会やコンテストに出せる形にまとめる"]
+      },
+      opening: "なぜ同じ川なのに、上流と下流で生き物の種類がこんなにも違うのか。小学生のときに抱いたこの疑問が、私の探究の出発点である。",
+      cases: {
+        L1: { title: "「なんで?」のメモから研究を始めたDさん", before: ["評定 3.5", "模試の偏差値 47", "校外活動なし"],
+          steps: ["毎日書きためた「なんで?」から、近所の川の水質というテーマを見つける", "市販の検査キットで半年間データをとり、結果をまとめる", "高校生向けの発表会でポスター発表し、その経験を志望理由にする"], result: "難関私大の理工系学部に合格" },
+        L2: { title: "探究の授業を、校外での発表につなげたEさん", before: ["評定 4.0", "模試の偏差値 56", "授業で探究に取り組んだ"],
+          steps: ["授業の探究テーマを、大学の研究分野と結びつけて深掘りする", "大学の先生の論文を読み、仮説を立て直して追加で調べる", "校外の研究発表会で発表し、質疑応答の経験を面接に生かす"], result: "早慶レベルの難関私大 環境・情報系学部に合格" },
+        L3: { title: "課題研究を、学会発表のレベルまで仕上げたFさん", before: ["評定 4.5", "模試の偏差値 65", "科学コンテスト出場・英検準1級"],
+          steps: ["研究の新しさと意義を、第三者の視点で磨き直す", "高校生向けの学会で発表し、専門家から講評を受ける", "大学で取り組みたい研究計画書を完成させる"], result: "最難関の国公立大 理学系学部に合格" }
+      }
+    },
+    create: {
+      name: "ものづくりクリエイター型", stamp: "創",
+      fieldsBy: {"bun": ["デザイン", "メディア・映像", "芸術", "文化・表現", "広告・マーケティング", "文学・創作"], "ri": ["情報・プログラミング", "建築", "工学・ロボット", "デザイン工学", "メディア情報", "材料・化学"]},
+      catch: "アイデアを、形にして届ける人",
+      desc: "頭の中のイメージを、目に見える形にするのが好きなタイプ。こだわって作ったものは、それ自体が何よりの実力の証拠になります。賞をとった経験がなくても大丈夫。これから作るものが、あなたのポートフォリオになります。",
+      strengths: ["作品やポートフォリオで、実力を目に見える形で示せる", "試して、直して、また作った経験を語れる", "自分らしさのある志望理由を作りやすい"],
+      fields: ["デザイン", "情報・プログラミング", "建築", "メディア", "芸術", "工学"],
+      todo: {
+        "1": ["これまで作ったもの(絵、動画、料理、何でも)を写真で集める", "好きな作品やサービスが「なぜ良いのか」を言葉にしてみる", "新しい道具(アプリ、ソフト、画材など)に一つ挑戦する"],
+        "2": ["身近な誰かの「困った」を解決するものを一つ作る", "作ったものを人に使ってもらい、感想をもらう", "作品をまとめたポートフォリオを作り始める"]
+      },
+      opening: "祖母がスマートフォンの操作に困る姿を見て、私は誰にでも使いやすいアプリを作りたいと考えた。最初の試作品は、まったく使ってもらえなかった。",
+      cases: {
+        L1: { title: "趣味のイラストを、作品集に変えたGさん", before: ["評定 3.3", "模試の偏差値 44", "校外活動なし"],
+          steps: ["好きで描いていたイラストに「誰のための作品か」という視点を加える", "地域の子ども向けに、防災を伝える絵本を制作する", "制作の過程と工夫をポートフォリオにまとめ、面接でプレゼンする"], result: "難関私大のデザイン・メディア系学部に合格" },
+        L2: { title: "アプリ制作で、身近な不便を解決したHさん", before: ["評定 3.8", "模試の偏差値 54", "プログラミングを独学"],
+          steps: ["祖父母の「スマホが使いにくい」という声をヒントに、アプリを試作する", "実際に使ってもらい、改善を何度もくり返す", "試作と改善の記録を、志望理由書の具体例にする"], result: "早慶レベルの難関私大 情報系学部に合格" },
+        L3: { title: "入賞作品を、研究テーマに発展させたIさん", before: ["評定 4.3", "模試の偏差値 62", "デザインコンテスト入賞・英検2級"],
+          steps: ["入賞作品の背景にある問題意識を言葉にする", "作品を社会で役立てるための計画を、大学の研究室と結びつける", "プレゼン選考に向けて、作品と論理の両面で完成度を高める"], result: "最難関私大の建築・デザイン系学部に合格" }
+      }
+    },
+    support: {
+      name: "寄りそいサポーター型", stamp: "寄",
+      fieldsBy: {"bun": ["教育", "心理学", "社会福祉", "保育", "国際協力", "人間科学"], "ri": ["看護", "医療・リハビリ", "栄養学", "臨床心理・脳科学", "生命科学", "公衆衛生"]},
+      casesAlt: {"L1": {"title": "祖母の通院の付き添いから、看護を志したSさん", "before": ["評定 3.6", "模試の偏差値 46", "校外活動なし"], "steps": ["祖母の通院に付き添った経験から、医療で人を支えたいと気づく", "病院のボランティアや職業体験に参加し、現場の声を聞く", "「患者さんの気持ちに寄りそう看護」を、志望理由の軸にする"], "result": "難関私大の看護学部に合格"}, "L2": {"title": "部活でのケガをきっかけに、リハビリを学ぶと決めたTさん", "before": ["評定 4.0", "模試の偏差値 53", "部活の副キャプテン"], "steps": ["自分のケガとリハビリの経験を、学びたいテーマにつなげる", "理学療法士の方にインタビューし、仕事の現実を知る", "チームメイトのケガ予防の取り組みを、具体例として語る"], "result": "早慶レベルの難関私大 スポーツ・健康科学系学部に合格"}, "L3": {"title": "地域の健康課題を、研究テーマにしたUさん", "before": ["評定 4.5", "模試の偏差値 64", "医療系ボランティア・英検準1級"], "steps": ["高齢者の健康づくり活動に参加し、地域の課題を見つける", "データと現場の声をもとに、改善策をまとめて発表する", "大学で取り組みたい研究計画書を完成させる"], "result": "最難関の国公立大 医療・保健系学部に合格"}},
+      catch: "人の気持ちに気づき、支える人",
+      desc: "人の話をじっくり聞き、相手の立場で考えられるタイプ。目立つ実績がなくても、人と関わってきた日常の中に、説得力のある志望理由の種が眠っています。その種に気づけるかどうかが勝負です。",
+      strengths: ["面接で、人柄や誠実さが伝わりやすい", "身近な人との関わりから、深いテーマを見つけられる", "教育・福祉・心理など、人に関わる分野と結びつけやすい"],
+      fields: ["教育", "心理学", "社会福祉", "看護", "保育", "国際協力"],
+      todo: {
+        "1": ["人の役に立てた経験、立てなかった経験を書き出す", "学習支援や子ども向けのイベントなど、人と関わる場に行ってみる", "気になる仕事をしている人に、話を聞いてみる"],
+        "2": ["関わりたい「相手」と、その人の「困りごと」を一つに絞る", "その相手と関わる活動を続け、気づいたことを記録する", "その困りごとを学問として学べる学部を比べてみる"]
+      },
+      opening: "学校に来られなくなった友人が、ある先生の一言で教室に戻ってきた。言葉ひとつで人は変われる。そのことを、私は友人から教わった。",
+      cases: {
+        L1: { title: "人の話を聞く力を、強みに変えたJさん", before: ["評定 3.6", "模試の偏差値 46", "校外活動なし"],
+          steps: ["友だちの相談に乗ることが多い、という日常から自分の強みを見つける", "地域の学習支援ボランティアに参加し、子どもとの関わりを記録する", "「学びたいのに学べない子」という課題を、志望理由の軸にする"], result: "難関私大の教育学系学部に合格" },
+        L2: { title: "ボランティア経験を、課題意識につなげたKさん", before: ["評定 4.0", "模試の偏差値 53", "福祉施設でのボランティア"],
+          steps: ["ボランティアで感じた違和感を、社会の課題としてとらえ直す", "当事者や職員の方へのインタビューで、課題を具体的にする", "大学で学びたいことと将来像を、一本の線でつなげる"], result: "早慶レベルの難関私大 人間科学系学部に合格" },
+        L3: { title: "海外ボランティアの経験を、研究計画にしたLさん", before: ["評定 4.5", "模試の偏差値 64", "海外ボランティア・英検準1級"],
+          steps: ["海外での経験を、教育格差という研究テーマに整理する", "英語での面接やプレゼンに向けて練習を重ねる", "大学の研究と自分の問いを結びつけた研究計画書を完成させる"], result: "最難関の国公立大 国際・教育系学部に合格" }
+      }
+    }
+  },
+  /* 質問:最初の6問(common)で学年・評定・偏差値・実績・資格・本音を聞き、レベルを判定。
+     レベルに応じて、素質の質問が basic(日常の場面)か advanced(探究・学びの場面)に分かれる。 */
+  questions: {
+    common: [
+      { kind: "grade", section: "まずは、いまのあなた", text: "いまの学年は?", options: [{ label: "高校1年生", v: "1" }, { label: "高校2年生", v: "2" }] },
+      {"kind": "bunri", "section": "まずは、いまのあなた", "text": "文系と理系、どちらに近い?", "hint": "まだ決まっていなくても大丈夫です。", "options": [{"label": "文系", "v": "bun"}, {"label": "理系", "v": "ri"}, {"label": "まだ決めていない・どちらも気になる", "v": "both"}]},
+      { kind: "hyotei", section: "まずは、いまのあなた", text: "通知表の成績(評定平均)は、5段階でだいたいどのくらい?", hint: "まだ高校の成績が出ていない場合は、中学のときの感覚で大丈夫です。",
+        options: [{ label: "4.3以上", lv: 3 }, { label: "3.8〜4.2", lv: 2 }, { label: "3.5〜3.7", lv: 1 }, { label: "3.5未満", lv: 0 }, { label: "わからない", lv: 1 }] },
+      { kind: "dev", section: "まずは、いまのあなた", text: "模試の偏差値は、だいたいどのくらい?", hint: "正直に答えてOK。低くても、総合型選抜では十分に挑戦できます。",
+        options: [{ label: "60以上", v: "high", lv: 2 }, { label: "50〜59", v: "mid", lv: 1 }, { label: "50未満", v: "low", lv: 0 }, { label: "受けたことがない・わからない", v: "unknown", lv: 0 }] },
+      { kind: "exp", section: "まずは、いまのあなた", text: "部活や授業以外の活動・実績で、一番近いものは?", hint: "なくても大丈夫です。これから作れます。",
+        options: [{ label: "大会やコンテストでの入賞、または1年以上続けている活動がある", v: 2, lv: 2 }, { label: "校外の活動やイベントに参加したことがある", v: 1, lv: 1 }, { label: "ほとんどない", v: 0, lv: 0 }] },
+      { kind: "eng", section: "まずは、いまのあなた", text: "英語の資格は持っている?",
+        options: [{ label: "英検2級以上(または同じくらいのレベル)", lv: 2 }, { label: "英検準2級", lv: 1 }, { label: "3級以下・持っていない", lv: 0 }] },
+      { kind: "goal", section: "まずは、いまのあなた", text: "行きたい大学について、本音に一番近いのは?",
+        options: [{ label: "難関大に行けたらいいけど、今の成績じゃ無理だと思う", v: "dream" }, { label: "難関大を目指していて、届きそう", v: "on" }, { label: "行きたい大学は、まだ決まっていない", v: "undecided" }, { label: "大学に行くかどうかも迷っている", v: "unsure" }] }
+    ],
+    basic: [
+      { kind: "type", section: "あなたの素質", text: "YouTubeやSNSで、ついつい見てしまうのは?",
+        options: [{ label: "「なぜ〇〇なのか」「〇〇の裏側」みたいな解説", t: "research", tr: ["好奇心"] }, { label: "何かを作る・描く・料理する動画", t: "create", tr: ["発想力"] }, { label: "誰かの人生や、悩み相談の話", t: "support", tr: ["共感力"] }, { label: "誰かが企画に挑戦したり、何かを仕掛けたりする動画", t: "social", tr: ["行動力"] }] },
+      { kind: "type", section: "あなたの素質", text: "納得できない校則があったら、どうしたくなる?",
+        options: [{ label: "先生や生徒会に「変えませんか」と言ってみたくなる", t: "social", tr: ["行動力", "伝える力"] }, { label: "そもそも何のためのルールなのか、知りたくなる", t: "research", tr: ["好奇心"] }, { label: "もっといいルールを、自分で考えてみたくなる", t: "create", tr: ["発想力"] }, { label: "困っている友だちがいないか、気になる", t: "support", tr: ["共感力"] }] },
+      { kind: "type", section: "あなたの素質", text: "友だちに頼まれがちなのは?",
+        options: [{ label: "遊びや打ち上げの段取り", t: "social", tr: ["行動力"] }, { label: "わからないところの説明", t: "research", tr: ["伝える力", "好奇心"] }, { label: "写真の加工や、動画・イラスト", t: "create", tr: ["発想力"] }, { label: "恋愛や人間関係の相談", t: "support", tr: ["共感力"] }] },
+      { kind: "type", section: "あなたの素質", text: "退屈な授業中、頭の中で考えていることは?",
+        options: [{ label: "話から脱線して「そもそも、なんで?」", t: "research", tr: ["好奇心"] }, { label: "落書きや、何かのアイデア", t: "create", tr: ["発想力"] }, { label: "放課後や週末に何をするか", t: "social", tr: ["行動力"] }, { label: "あの子、最近元気ないな…など人のこと", t: "support", tr: ["共感力"] }] },
+      { kind: "type", tie: true, section: "あなたの素質", text: "魔法で、ひとつだけ何かを変えられるとしたら?",
+        options: [{ label: "住んでいる町や学校の、不便なところ", t: "social", tr: ["行動力"] }, { label: "誰も答えを知らない謎の、答えを知る", t: "research", tr: ["好奇心"] }, { label: "世界にまだない、便利なものを生み出す", t: "create", tr: ["発想力"] }, { label: "苦しんでいる誰かの、悩みを消す", t: "support", tr: ["共感力"] }] },
+      { kind: "type", section: "あなたの素質", text: "ゲームや遊びでの、あなたのスタイルは?",
+        options: [{ label: "仲間を集めて、チームで勝ちにいく", t: "social", tr: ["行動力", "伝える力"] }, { label: "攻略法を研究し尽くす", t: "research", tr: ["好奇心"] }, { label: "キャラや部屋を、自分好みにこだわって作る", t: "create", tr: ["発想力"] }, { label: "初心者に教えたり、みんなが楽しめているか気にする", t: "support", tr: ["共感力", "伝える力"] }] },
+      { kind: "type", section: "あなたの素質", text: "何かに失敗したとき、あなたは?",
+        options: [{ label: "とりあえず、すぐ次の手を打つ", t: "social", tr: ["行動力"] }, { label: "なんでダメだったのか、原因を考える", t: "research", tr: ["好奇心"] }, { label: "やり方を変えて、作り直してみる", t: "create", tr: ["発想力"] }, { label: "誰かに話して、気持ちを整理する", t: "support", tr: ["共感力", "伝える力"] }] },
+      { kind: "type", section: "あなたの素質", text: "言われて一番うれしいのは?",
+        options: [{ label: "「行動力あるね」", t: "social", tr: ["行動力"] }, { label: "「よく気づくね」「詳しいね」", t: "research", tr: ["好奇心"] }, { label: "「センスあるね」「おもしろいね」", t: "create", tr: ["発想力"] }, { label: "「あなたがいてくれてよかった」", t: "support", tr: ["共感力"] }] }
+    ],
+    advanced: [
+      { kind: "type", section: "あなたの素質", text: "探究や課題研究でテーマを選ぶなら、どのスタイル?",
+        options: [{ label: "仮説を立てて、調査や実験で確かめる研究", t: "research", tr: ["好奇心"] }, { label: "地域や社会の課題を解決するプロジェクト", t: "social", tr: ["行動力"] }, { label: "当事者へのインタビューや支援を通じて考える", t: "support", tr: ["共感力"] }, { label: "作品やサービスを作って、使ってもらって検証する", t: "create", tr: ["発想力"] }] },
+      { kind: "type", section: "あなたの素質", text: "気になるニュースを見たとき、最初に考えることは?",
+        options: [{ label: "解決するために、自分に何ができるか", t: "social", tr: ["行動力"] }, { label: "背景やデータを調べて、本当の原因を知りたい", t: "research", tr: ["好奇心"] }, { label: "これを解決する、新しい仕組みやサービスのアイデア", t: "create", tr: ["発想力"] }, { label: "その出来事に関わる人が、どんな気持ちでいるか", t: "support", tr: ["共感力"] }] },
+      { kind: "type", section: "あなたの素質", text: "自分から手に取りたくなる本や記事は?",
+        options: [{ label: "デザインや技術、ものづくりの本", t: "create", tr: ["発想力"] }, { label: "心理や教育、人の生き方についての本", t: "support", tr: ["共感力"] }, { label: "新しい研究や学問をわかりやすく解説した新書", t: "research", tr: ["好奇心"] }, { label: "社会を動かしたリーダーや起業家の話", t: "social", tr: ["行動力"] }] },
+      { kind: "type", section: "あなたの素質", text: "チームで成果を出したとき、あなたが一番貢献したのは?",
+        options: [{ label: "方向性を決めて、メンバーを動かしたこと", t: "social", tr: ["行動力", "伝える力"] }, { label: "情報を集めて、根拠を示したこと", t: "research", tr: ["好奇心", "伝える力"] }, { label: "アイデアを出して、形にしたこと", t: "create", tr: ["発想力"] }, { label: "メンバーの意見を聞いて、チームをまとめたこと", t: "support", tr: ["共感力"] }] },
+      { kind: "type", tie: true, section: "あなたの素質", text: "大学で一番やってみたいことは?",
+        options: [{ label: "研究室で、一つのテーマを深く研究する", t: "research", tr: ["好奇心"] }, { label: "現場での実習やボランティアで、人と関わる", t: "support", tr: ["共感力"] }, { label: "フィールドワークで、社会の課題に取り組む", t: "social", tr: ["行動力"] }, { label: "仲間と制作やものづくりのプロジェクトを進める", t: "create", tr: ["発想力"] }] },
+      { kind: "type", section: "あなたの素質", text: "面接で「あなたの強みは?」と聞かれたら、一番自信を持って言えるのは?",
+        options: [{ label: "まわりを巻き込んで、物事を前に進める力", t: "social", tr: ["行動力", "伝える力"] }, { label: "物事を分析して、筋道を立てて考える力", t: "research", tr: ["好奇心"] }, { label: "人とは違う視点で、アイデアを生み出す力", t: "create", tr: ["発想力"] }, { label: "相手の話を聞いて、気持ちをくみ取る力", t: "support", tr: ["共感力"] }] },
+      { kind: "type", section: "あなたの素質", text: "小論文のテーマで、一番書きやすそうなのは?",
+        options: [{ label: "テクノロジーと表現・デザインの未来", t: "create", tr: ["発想力"] }, { label: "地域活性化とまちづくり", t: "social", tr: ["行動力"] }, { label: "教育・福祉と、多様性のある社会", t: "support", tr: ["共感力"] }, { label: "科学技術の進歩と、社会への影響", t: "research", tr: ["好奇心"] }] },
+      { kind: "type", section: "あなたの素質", text: "将来、仕事で実現したいことに一番近いのは?",
+        options: [{ label: "人の人生や成長を支える", t: "support", tr: ["共感力"] }, { label: "世の中にまだないものを作る", t: "create", tr: ["発想力"] }, { label: "社会の仕組みを変える", t: "social", tr: ["行動力"] }, { label: "新しい知識や発見を生み出す", t: "research", tr: ["好奇心"] }] }
+    ],
+    end: [
+      { kind: "talk", section: "さいごに", text: "自分の考えを人に話すのは?", options: [{ label: "わりと得意", v: 2 }, { label: "ふつう", v: 1 }, { label: "苦手", v: 0 }] }
+    ]
+  }
+};
+
+const ORDER = ["social", "research", "create", "support"];
+const TCOLOR = { social: "var(--t-social)", research: "var(--t-research)", create: "var(--t-create)", support: "var(--t-support)" };
+const TRAITS = ["好奇心", "行動力", "発想力", "共感力", "伝える力"];
+const SAMPLE_TOP = { social: ["行動力", "伝える力"], research: ["好奇心", "伝える力"], create: ["発想力", "好奇心"], support: ["共感力", "伝える力"] };
+const TYPE_LEAN = { social: "bun", research: "ri", create: null, support: "bun" };
+const DEV_LABEL = { high: "60以上", mid: "50〜59", low: "50未満", unknown: "まだわからない" };
+const DRAFT_KEY = "shindan-edit-draft";
+
+/* ---------- helpers ---------- */
+const clone = o => JSON.parse(JSON.stringify(o));
+const isObj = v => v && typeof v === "object" && !Array.isArray(v);
+function merge(base, over) {
+  if (over === undefined || over === null) return clone(base);
+  if (isObj(base) && isObj(over)) {
+    const out = {};
+    new Set([...Object.keys(base), ...Object.keys(over)]).forEach(k => { out[k] = k in over ? merge(base[k], over[k]) : clone(base[k]); });
+    return out;
+  }
+  return clone(over);
+}
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const md = s => esc(s).replace(/==(.+?)==/g, '<span class="hl">$1</span>').replace(/\n/g, "<br>");
+const get = (o, p) => p.split(".").reduce((x, k) => (x == null ? undefined : x[k]), o);
+function set(o, p, v) { const ks = p.split("."); const last = ks.pop(); const t = ks.reduce((x, k) => x[k], o); t[last] = v; }
+const ss = {
+  get(k) { try { return sessionStorage.getItem(k); } catch (e) { return null; } },
+  set(k, v) { try { sessionStorage.setItem(k, v); } catch (e) {} },
+  del(k) { try { sessionStorage.removeItem(k); } catch (e) {} }
+};
+
+/* ---------- state ---------- */
+let DATA;
+try { DATA = merge(DEFAULTS, JSON.parse(document.getElementById("page-data").textContent)); } catch (e) { DATA = clone(DEFAULTS); }
+let EDIT = false, DRAFT = null, DIRTY = false, ARTIFACT = null;
+const D = () => (EDIT ? DRAFT : DATA);
+const view = { screen: "intro", qi: 0, branch: "basic", pv: { type: "social", grade: "1", goal: "dream", level: "L1", bunri: "both" } };
+const quizState = { pos: 0, ans: {}, branch: "basic", seq: [] };
+
+/* 質問の並び:共通7問 → レベル別の素質8問 → 最後の1問 */
+function seqFor(branch) {
+  const q = D().questions;
+  return [...q.common.map((_, i) => `common.${i}`), ...q[branch].map((_, i) => `${branch}.${i}`), ...q.end.map((_, i) => `end.${i}`)];
+}
+const Q = p => get(D().questions, p);
+function levelScore() {
+  let s = 0;
+  D().questions.common.forEach((q, i) => { const a = quizState.ans[`common.${i}`]; if (a != null && q.options[a].lv != null) s += q.options[a].lv; });
+  return s;
+}
+const branchOf = s => (s >= 4 ? "advanced" : "basic");
+const levelOf = s => (s >= 7 ? "L3" : s >= 4 ? "L2" : "L1");
+function startQuiz() { quizState.pos = 0; quizState.ans = {}; quizState.branch = "basic"; quizState.seq = seqFor("basic"); }
+const root = document.getElementById("root");
+
+const baseCtx = () => ({ 塾名: D().config.schoolName });
+const fill = (s, ctx) => String(s ?? "").replace(/\{(タイプ名|武器1|武器2|偏差値|学年|塾名|レベル)\}/g, (m, k) => (ctx && ctx[k] != null ? ctx[k] : m));
+
+/* E: 編集できる文章。通常時は ==マーカー== と改行を反映、編集時は元の文字をそのまま表示 */
+function E(tag, path, attrs, ctx) {
+  const raw = get(D(), path) ?? "";
+  const a = attrs ? " " + attrs : "";
+  if (EDIT) return `<${tag}${a} data-edit="${path}">${esc(raw)}</${tag}>`;
+  return `<${tag}${a}>${md(fill(raw, ctx || baseCtx()))}</${tag}>`;
+}
+function LIST(path, attrs, ctx, wrap = "ul", item = "li") {
+  const arr = get(D(), path) || [];
+  const items = arr.map((v, i) => EDIT
+    ? `<${item}><span data-edit="${path}.${i}">${esc(v)}</span><button type="button" class="x" data-del="${path}.${i}" aria-label="この項目を削除">×</button></${item}>`
+    : `<${item}><span>${md(fill(v, ctx || baseCtx()))}</span></${item}>`).join("");
+  return `<${wrap} ${attrs}>${items}</${wrap}>` + (EDIT ? `<button type="button" class="add" data-add="${path}">+ 項目を追加</button>` : "");
+}
+function BTN(path, cls, extra, ctx) {
+  if (EDIT) return `<span class="${cls}" data-edit="${path}">${esc(get(D(), path))}</span>`;
+  return `<button type="button" class="${cls}" ${extra || ""}>${md(fill(get(D(), path), ctx || baseCtx()))}</button>`;
+}
+const ctaReady = () => /^https?:\/\//.test(D().config.ctaUrl || "");
+
+function applyColors() {
+  const c = D().colors, s = document.documentElement.style;
+  s.setProperty("--brand", c.brand); s.setProperty("--brand-2", c.brand2); s.setProperty("--cta", c.cta); s.setProperty("--marker", c.marker);
+}
+
+/* ---------- 共通パーツ ---------- */
+function topbar() {
+  const c = D().config;
+  const href = ctaReady() && !EDIT ? `href="${esc(c.ctaUrl)}" target="_blank" rel="noopener"` : `href="#consult"`;
+  return `<header class="topbar"><div class="logo">${esc(c.schoolName)}<small>${esc(c.schoolTag)}</small></div><a class="top-cta" ${href}>${esc(c.topLabel)}</a></header>`;
+}
+function footer() {
+  const c = D().config;
+  return `<footer class="site-foot"><div><b>${esc(c.schoolName)}</b> ${esc(c.schoolTag)}</div>${E("div", "text.footer.note", 'class="fine"')}</footer>`;
+}
+function typeCard(key) {
+  return `<div class="type-card"><div class="stamp" style="--tc:${TCOLOR[key]}" aria-hidden="true">${esc(D().types[key].stamp)}</div>
+    <div style="min-width:0">${E("h3", `types.${key}.name`)}${E("p", `types.${key}.catch`)}</div></div>`;
+}
+function head(enPath, titlePath, ctx) {
+  return `<div class="sec-head">${E("span", enPath, 'class="en"')}${E("h2", titlePath, "", ctx)}</div>`;
+}
+
+/* ---------- トップ ---------- */
+function introHTML() {
+  const t = D().text;
+  return `
+  <section class="band hero fade"><div class="inner">
+    ${E("span", "text.hero.badge", 'class="badge"')}
+    ${E("h1", "text.hero.title")}
+    ${E("p", "text.hero.lead", 'class="lead"')}
+    ${LIST("text.hero.meta", 'class="meta"')}
+    ${BTN("text.hero.button", "btn start")}
+    ${E("p", "text.hero.micro", 'class="microcopy"')}
+  </div></section>
+  <section class="band alt fade"><div class="inner">
+    ${head("text.worries.en", "text.worries.title")}
+    ${LIST("text.worries.items", 'class="worries"')}
+    ${E("div", "text.worries.bubble", 'class="bubble"')}
+  </div></section>
+  <section class="band fade"><div class="inner">
+    ${head("text.compare.en", "text.compare.title")}
+    <div class="compare-wrap"><table class="compare">
+      <thead><tr><th></th>${E("th", "text.compare.col1")}${E("th", "text.compare.col2")}</tr></thead>
+      <tbody>${t.compare.rows.map((r, i) => `<tr>${E("th", `text.compare.rows.${i}.label`)}${E("td", `text.compare.rows.${i}.a`)}${E("td", `text.compare.rows.${i}.b`)}</tr>`).join("")}</tbody>
+    </table></div>
+    ${E("p", "text.compare.note", 'class="fine"')}
+  </div></section>
+  <section class="band alt fade"><div class="inner">
+    ${head("text.typesSec.en", "text.typesSec.title")}
+    <div class="types">${ORDER.map(typeCard).join("")}</div>
+    ${E("p", "text.typesSec.micro", 'class="microcopy"')}
+    <div class="btn-row">${BTN("text.typesSec.button", "btn start")}</div>
+  </div></section>`;
+}
+
+/* ---------- 質問 ---------- */
+function quizHTML(path, pos, total, chosen) {
+  const q = Q(path), n = pos + 1, P = `questions.${path}`;
+  const typeName = k => D().types[k].name;
+  const mapText = o => o.t ? `この答え → ${esc(typeName(o.t))}・${o.tr.join("・")}` : o.lv != null ? `レベル判定 +${o.lv}点` : "";
+  const opts = q.options.map((o, k) => EDIT
+    ? `<div class="opt"><span class="key">${"ABCDE"[k]}</span><span data-edit="${P}.options.${k}.label">${esc(o.label)}</span>${mapText(o) ? `<span class="map">${mapText(o)}</span>` : ""}</div>`
+    : `<button type="button" class="opt${chosen === k ? " on" : ""}" data-k="${k}" id="opt-${n}-${k}"><span class="key">${"ABCDE"[k]}</span><span>${esc(o.label)}</span></button>`).join("");
+  return `
+  <section class="band quiz-band"><div class="inner">
+    <div class="qcard fade" aria-live="polite">
+      <div class="progress">
+        <div class="progress-top">${E("span", `${P}.section`)}<span>${n} / ${total}</span></div>
+        <div class="bar"><span style="width:${(pos / total) * 100}%"></span></div>
+      </div>
+      <div class="qnum">Q${n}</div>
+      ${E("h2", `${P}.text`, 'class="qtext"')}
+      ${q.hint != null ? E("p", `${P}.hint`, 'class="qhint"') : ""}
+      <div class="opts">${opts}</div>
+      ${EDIT ? "" : `<button type="button" class="linkbtn" id="back">${pos === 0 ? "← トップへ戻る" : "← 前の質問へ"}</button>`}
+    </div>
+  </div></section>`;
+}
+
+/* ---------- 判定 ---------- */
+function compute() {
+  const r = { grade: "1", bunri: "both", dev: "unknown", goal: "undecided", exp: 0, talk: 0 };
+  const score = { social: 0, research: 0, create: 0, support: 0 };
+  const trait = Object.fromEntries(TRAITS.map(t => [t, 0]));
+  let tie = null;
+  quizState.seq.forEach(path => {
+    const a = quizState.ans[path]; if (a == null) return;
+    const q = Q(path), o = q.options[a];
+    if (q.kind === "type") { score[o.t] += 1; o.tr.forEach(t => trait[t] += 1); if (q.tie) tie = o.t; }
+    else if (q.kind === "talk") { r.talk = o.v; trait["伝える力"] += o.v * 0.5; }
+    else if (o.v != null) r[q.kind] = o.v;
+  });
+  r.level = levelOf(levelScore());
+  r.tier = r.level === "L1" ? "L2" : r.level; // 表示上のランクは、誰でも2段目以上
+  const top = Math.max(...Object.values(score));
+  const tied = ORDER.filter(k => score[k] === top);
+  r.type = tied.includes(tie) ? tie : tied[0];
+  const maxT = Math.max(...Object.values(trait), 1);
+  const ranked = [...TRAITS].sort((a, b) => trait[b] - trait[a]);
+  r.topTraits = ranked.slice(0, 2);
+  r.traits = TRAITS.map(t => ({ name: t, pct: Math.round(35 + 65 * (trait[t] / maxT)), top: r.topTraits.includes(t) }));
+  return r;
+}
+function previewResult() {
+  const p = view.pv, top = SAMPLE_TOP[p.type];
+  return { grade: p.grade, bunri: p.bunri, dev: { L1: "low", L2: "mid", L3: "high" }[p.level], goal: p.goal, type: p.type, level: p.level, tier: p.level === "L1" ? "L2" : p.level, topTraits: top,
+    traits: TRAITS.map((t, i) => ({ name: t, pct: top.includes(t) ? (t === top[0] ? 100 : 86) : 50 + i * 4, top: top.includes(t) })) };
+}
+
+function genko(text) {
+  const chars = ["", ...Array.from(text)];
+  const cells = Math.ceil((chars.length + 20) / 20) * 20, rows = cells / 20;
+  let html = "";
+  for (let i = 0; i < cells; i++) {
+    const c = chars[i] || "", cls = [];
+    if (i >= (rows - 1) * 20) cls.push("last-row");
+    if (c === "、" || c === "。") cls.push("p");
+    html += `<span${cls.length ? ` class="${cls.join(" ")}"` : ""}>${esc(c)}</span>`;
+  }
+  return `<div class="genko" role="img" aria-label="${esc(text)}">${html}</div>`;
+}
+
+/* ---------- 結果 ---------- */
+function resultHTML(r) {
+  const d = D(), t = d.types[r.type], tc = TCOLOR[r.type], c = d.config;
+  const gradeLabel = r.grade === "2" ? "高2" : "高1";
+  const lvName = d.text.levels[r.tier].name;
+  const ctx = { タイプ名: t.name, 武器1: r.topTraits[0], 武器2: r.topTraits[1], 偏差値: DEV_LABEL[r.dev], 学年: gradeLabel, 塾名: c.schoolName, レベル: lvName };
+  // 文理の答えがタイプの典型と違うときは、もう一方の合格モデルを出す(例:文系の探究リサーチャー型)
+  const lean = TYPE_LEAN[r.type];
+  const useAlt = lean && (r.bunri === "bun" || r.bunri === "ri") && r.bunri !== lean && t.casesAlt;
+  const cp = `types.${r.type}.${useAlt ? "casesAlt" : "cases"}.${r.level}`;
+  const fp = (r.bunri === "bun" || r.bunri === "ri") && t.fieldsBy ? `types.${r.type}.fieldsBy.${r.bunri}` : `types.${r.type}.fields`;
+  const rv = `text.reversal.${r.goal}`;
+  const rvNote = get(d, rv + ".note");
+  const showFact = r.goal !== "unsure";
+  const road = d.text.roadmap[r.grade].map((s, i) => `<li><span class="dot">${i + 1}</span><div>${E("div", `text.roadmap.${r.grade}.${i}.when`, 'class="when"', ctx)}${E("div", `text.roadmap.${r.grade}.${i}.what`, 'class="what"', ctx)}${s.help ? E("span", "text.result.roadHelp", 'class="help"', ctx) : ""}</div></li>`).join("");
+  const url = c.siteUrl || location.href.split("#")[0];
+  const shareText = fill(d.text.share.text, ctx);
+  const ctaMain = EDIT
+    ? `<span class="btn wide">${esc(c.ctaLabel)}</span><div class="setup">ボタンの文字と予約ページのURLは、上の「塾の情報・色」で変えられます。</div>`
+    : ctaReady()
+      ? `<a class="btn wide" href="${esc(c.ctaUrl)}" target="_blank" rel="noopener">${esc(c.ctaLabel)}</a>`
+      : `<span class="btn wide" aria-disabled="true">${esc(c.ctaLabel)}</span><div class="setup">【設定待ち】予約ページのURLを設定すると、このボタンから予約ページが開きます。</div>`;
+  const ctaLine = c.lineUrl ? (EDIT ? `<span class="btn sub wide">${esc(c.lineLabel)}</span>` : `<a class="btn sub wide" href="${esc(c.lineUrl)}" target="_blank" rel="noopener">${esc(c.lineLabel)}</a>`) : "";
+  const sp = `text.levels.${r.level}`;
+  const tierIdx = { L1: 1, L2: 2, L3: 3 }[r.tier];
+
+  return `
+  <section class="band res-top fade"><div class="inner">
+    <div class="res-card" style="--tc:${tc}">
+      ${E("span", "text.result.label", 'class="res-label"', ctx)}
+      <div class="stamp big" style="--tc:${tc}" aria-hidden="true">${esc(t.stamp)}</div>
+      ${E("h1", `types.${r.type}.name`, 'class="res-name"', ctx)}
+      ${E("p", `types.${r.type}.catch`, 'class="res-catch"', ctx)}
+      ${E("p", `types.${r.type}.desc`, 'class="res-desc"', ctx)}
+      ${E("p", "text.result.note", 'class="res-note"', ctx)}
+    </div>
+    <div class="reversal">
+      ${E("span", rv + ".kicker", 'class="kicker"', ctx)}
+      ${E("h3", rv + ".title", "", ctx)}
+      ${E("p", rv + ".body", "", ctx)}
+      ${showFact ? `<div class="fact"><b>FACT</b>${E("span", "text.reversal.fact", "", ctx)}</div>` : ""}
+      ${rvNote || EDIT ? E("p", rv + ".note", 'class="fine"', ctx) : ""}
+    </div>
+  </div></section>
+
+  <section class="band alt fade"><div class="inner">
+    ${head("text.result.potEn", "text.result.potTitle", ctx)}
+    <div class="panel">
+      <div class="traits">${r.traits.map(x => `<div class="trait${x.top ? " top" : ""}"><span class="trait-name">${x.name}</span><div class="trait-track"><div class="trait-fill" style="width:${x.pct}%"></div></div>${E("span", x.top ? "text.result.tagTop" : "text.result.tagOther", 'class="trait-tag"', ctx)}</div>`).join("")}</div>
+      ${E("p", "text.result.potNote", 'class="fine"', ctx)}
+    </div>
+    <div class="panel" style="--tc:${tc}">
+      ${E("h3", "text.result.strengthsTitle", "", ctx)}
+      ${LIST(`types.${r.type}.strengths`, 'class="list"', ctx)}
+      ${E("h3", "text.result.fieldsTitle", "", ctx)}
+      ${LIST(fp, 'class="chips"', ctx, "div", "span")}
+    </div>
+  </div></section>
+
+  <section class="band fade"><div class="inner">
+    ${head("text.result.startEn", "text.result.startTitle", ctx)}
+    <div class="panel">
+      <div class="lv-meter" aria-label="3段階中${tierIdx}段階目">${["L1", "L2", "L3"].map((k, i) => `<span class="${i < tierIdx ? "on" : ""}${k === r.tier ? " cur" : ""}">${esc(d.text.levels[k].name)}</span>`).join("")}</div>
+      <div class="start-type"><div class="pill">${E("small", sp + ".sub", "", ctx)}${E("span", `text.levels.${r.tier}.name`, "", ctx)}</div>${E("p", sp + ".text", "", ctx)}</div>
+    </div>
+    <div class="panel" style="--tc:${tc}">
+      ${E("h3", "text.result.todoTitle", "", ctx)}
+      ${LIST(`types.${r.type}.todo.${r.grade}`, 'class="list"', ctx)}
+    </div>
+  </div></section>
+
+  <section class="band alt fade"><div class="inner">
+    ${head("text.result.roadEn", "text.result.roadTitle", ctx)}
+    <div class="panel"><ol class="road">${road}</ol></div>
+  </div></section>
+
+  <section class="band fade"><div class="inner">
+    ${head("text.result.sampleEn", "text.result.sampleTitle", ctx)}
+    ${EDIT ? E("div", `types.${r.type}.opening`, 'class="genko-edit"') : genko(t.opening)}
+    ${E("p", "text.result.sampleNote", 'class="fine" style="text-align:center"', ctx)}
+  </div></section>
+
+  <section class="band alt case-band fade"><div class="inner">
+    ${head("text.result.caseEn", "text.result.caseTitle", ctx)}
+    <article class="case" style="--tc:${tc}">
+      ${E("h3", cp + ".title", 'class="case-title"', ctx)}
+      ${E("p", "text.result.caseNote", 'class="fine case-note"', ctx)}
+      <div class="case-flow">
+        <div class="case-box case-before">${E("span", "text.result.caseBefore", 'class="case-lbl"', ctx)}${LIST(cp + ".before", 'class="case-chips"', ctx, "div", "span")}</div>
+        <div class="case-arrow" aria-hidden="true"></div>
+        <div class="case-box">${E("span", "text.result.caseSteps", 'class="case-lbl"', ctx)}${LIST(cp + ".steps", 'class="case-steps"', ctx, "ol")}</div>
+        <div class="case-arrow" aria-hidden="true"></div>
+        <div class="case-box case-after">${E("span", "text.result.caseAfter", 'class="case-lbl"', ctx)}${E("p", cp + ".result", 'class="case-result"', ctx)}${E("p", "text.result.caseClose", 'class="case-close"', ctx)}</div>
+      </div>
+    </article>
+  </div></section>
+
+  <section class="band navy walls-band fade"><div class="inner">
+    ${E("p", "text.walls.kicker", 'class="walls-kicker"', ctx)}
+    ${head("text.walls.en", "text.walls.title", ctx)}
+    ${E("p", "text.walls.lead", 'class="walls-lead"', ctx)}
+    <div class="walls">${d.text.walls.items.map((w, i) => `<div class="wall">${E("span", `text.walls.items.${i}.no`, 'class="no"', ctx)}${E("h3", `text.walls.items.${i}.h`, "", ctx)}${E("p", `text.walls.items.${i}.p`, "", ctx)}</div>`).join("")}</div>
+    ${E("p", "text.walls.closing", 'class="walls-close"', ctx)}
+  </div></section>
+
+  <section class="band alt fade" id="consult"><div class="inner">
+    <div class="cta-box">
+      ${E("span", "text.cta.en", 'class="en"', ctx)}
+      ${E("h2", "text.cta.title", "", ctx)}
+      ${E("p", "text.cta.lead", "", ctx)}
+      ${LIST("text.cta.benefits", 'class="benefits"', ctx, "ol")}
+      <div class="cta-notes">${c.ctaNotes.map(n => `<span>${esc(n)}</span>`).join("")}</div>
+      ${ctaMain}
+      ${ctaLine}
+    </div>
+  </div></section>
+
+  <section class="band fade"><div class="inner">
+    ${head("text.share.en", "text.share.title", ctx)}
+    ${EDIT ? E("div", "text.share.text", 'class="share-edit"') : `<textarea class="share-text" id="shareText" rows="3" readonly>${esc(shareText + " " + url)}</textarea>
+    <div class="btn-row">
+      <a class="btn sub small" href="https://x.com/intent/post?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(url)}" target="_blank" rel="noopener">Xでシェア</a>
+      <a class="btn sub small" href="https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(url)}" target="_blank" rel="noopener">LINEで送る</a>
+      <button class="btn sub small" type="button" id="copy">文章をコピー</button>
+    </div>
+    <p class="toast" id="toast" aria-live="polite"></p>`}
+    <div class="sec-head" style="margin-top:12px">${E("span", "text.others.en", 'class="en"', ctx)}${E("h2", "text.others.title", "", ctx)}</div>
+    <div class="others">${ORDER.filter(k => k !== r.type).map(typeCard).join("")}</div>
+    <div class="btn-row">${BTN("text.others.retry", "btn sub small", 'id="retry"', ctx)}</div>
+  </div></section>`;
+}
+
+/* ---------- 描画 ---------- */
+let lastResult = null;
+function render() {
+  applyColors();
+  let body = "";
+  if (view.screen === "intro") body = introHTML();
+  else if (view.screen === "quiz") {
+    if (EDIT) { const seq = seqFor(view.branch); body = quizHTML(seq[view.qi], view.qi, seq.length, null); }
+    else { const path = quizState.seq[quizState.pos]; body = quizHTML(path, quizState.pos, quizState.seq.length, quizState.ans[path]); }
+  }
+  else body = resultHTML(EDIT ? previewResult() : lastResult);
+  root.innerHTML = topbar() + `<main>${body}</main>` +
+    (view.screen === "result" && !EDIT ? `<div class="fixed-cta"><a class="btn" href="#consult">${esc(D().config.fixedLabel)}</a></div>` : "") + footer();
+  document.body.classList.toggle("has-fixed", view.screen === "result" && !EDIT);
+  if (EDIT) wireEditable(); else wireNormal();
+}
+
+function wireNormal() {
+  root.querySelectorAll(".start").forEach(b => b.onclick = () => { startQuiz(); view.screen = "quiz"; render(); window.scrollTo(0, 0); });
+  root.querySelectorAll(".opt").forEach(b => b.onclick = () => {
+    const path = quizState.seq[quizState.pos];
+    quizState.ans[path] = Number(b.dataset.k);
+    root.querySelectorAll(".opt").forEach(x => x.classList.toggle("on", x === b));
+    setTimeout(() => {
+      // 共通の質問が終わったら、レベルに合わせて次からの質問を切り替える
+      if (quizState.pos === D().questions.common.length - 1) {
+        const br = branchOf(levelScore());
+        if (br !== quizState.branch) { quizState.branch = br; quizState.seq = seqFor(br); }
+      }
+      if (quizState.pos < quizState.seq.length - 1) quizState.pos++;
+      else { lastResult = compute(); view.screen = "result"; }
+      render(); window.scrollTo(0, 0);
+    }, 180);
+  });
+  const back = document.getElementById("back");
+  if (back) back.onclick = () => { if (quizState.pos === 0) view.screen = "intro"; else quizState.pos--; render(); window.scrollTo(0, 0); };
+  const copy = document.getElementById("copy");
+  if (copy) copy.onclick = () => {
+    const ta = document.getElementById("shareText"), toast = document.getElementById("toast");
+    const fallback = () => { ta.focus(); ta.select(); toast.textContent = "文章を選択しました。コピーして使ってください"; };
+    try { navigator.clipboard.writeText(ta.value).then(() => { toast.textContent = "コピーしました"; }, fallback); } catch (e) { fallback(); }
+  };
+  const retry = document.getElementById("retry");
+  if (retry) retry.onclick = () => { view.screen = "intro"; render(); window.scrollTo(0, 0); };
+}
+
+/* ============================================================
+   編集モード
+   ============================================================ */
+let bar, drawer, fab;
+
+function wireEditable() {
+  root.querySelectorAll("[data-edit]").forEach(el => {
+    el.setAttribute("contenteditable", "plaintext-only");
+    if (el.contentEditable !== "plaintext-only") el.setAttribute("contenteditable", "true");
+    el.spellcheck = false;
+  });
+}
+function readText(el) { return el.innerText.replace(/ /g, " ").replace(/\n+$/, ""); }
+function markDirty() { DIRTY = true; updateStatus(); }
+function updateStatus(text) {
+  const s = document.getElementById("ed-status"); if (!s) return;
+  s.textContent = text || (DIRTY ? "未保存の変更があります" : "変更はありません");
+  s.classList.toggle("dirty", DIRTY && !text);
+  const save = document.getElementById("ed-save"); if (save) save.disabled = !DIRTY;
+}
+
+root.addEventListener("focusout", e => {
+  if (!EDIT) return;
+  const el = e.target.closest && e.target.closest("[data-edit]"); if (!el) return;
+  const path = el.dataset.edit, v = readText(el);
+  if (get(DRAFT, path) !== v) { set(DRAFT, path, v); markDirty(); }
+});
+root.addEventListener("paste", e => {
+  if (!EDIT) return;
+  const el = e.target.closest && e.target.closest("[data-edit]");
+  if (!el || el.contentEditable === "plaintext-only") return;
+  e.preventDefault();
+  const text = (e.clipboardData || window.clipboardData).getData("text/plain");
+  document.execCommand("insertText", false, text);
+});
+root.addEventListener("click", e => {
+  if (!EDIT) return;
+  const a = e.target.closest("a"); if (a) e.preventDefault();
+  const del = e.target.closest(".x");
+  if (del) {
+    commitFocused();
+    const p = del.dataset.del.split("."), i = Number(p.pop()), arr = get(DRAFT, p.join("."));
+    arr.splice(i, 1); markDirty(); render(); return;
+  }
+  const add = e.target.closest(".add");
+  if (add) {
+    commitFocused();
+    const path = add.dataset.add, arr = get(DRAFT, path);
+    arr.push("新しい項目"); markDirty(); render();
+    const el = root.querySelector(`[data-edit="${path}.${arr.length - 1}"]`);
+    if (el) { el.focus(); const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); }
+  }
+});
+function commitFocused() {
+  const el = document.activeElement;
+  if (el && el.dataset && el.dataset.edit) { const v = readText(el); if (get(DRAFT, el.dataset.edit) !== v) { set(DRAFT, el.dataset.edit, v); DIRTY = true; } }
+}
+
+function enterEdit(draft) {
+  EDIT = true; DIRTY = !!draft; DRAFT = draft ? merge(DEFAULTS, draft) : clone(DATA);
+  if (view.screen === "result" && lastResult) view.pv = { type: lastResult.type, grade: lastResult.grade, goal: lastResult.goal, level: lastResult.level, bunri: lastResult.bunri };
+  if (view.screen === "quiz") { view.branch = quizState.branch; view.qi = quizState.pos; }
+  document.body.classList.add("editing");
+  if (fab) fab.hidden = true;
+  buildBar(); render(); updateStatus();
+}
+function exitEdit() {
+  EDIT = false; DRAFT = null; DIRTY = false;
+  document.body.classList.remove("editing");
+  if (bar) { bar.remove(); bar = null; }
+  closeDrawer();
+  if (view.screen === "result" && !lastResult) view.screen = "intro";
+  if (view.screen === "quiz") { startQuiz(); view.screen = "intro"; }
+  if (fab) fab.hidden = false;
+  render();
+}
+
+function buildBar() {
+  bar = document.createElement("div");
+  bar.className = "ed-bar"; bar.id = "ed-bar";
+  bar.innerHTML = `
+    <div class="ed-row">
+      <span class="ed-title">編集モード</span><span class="ed-status" id="ed-status"></span>
+      <span class="ed-spacer"></span>
+      <button type="button" class="ed-btn" id="ed-settings">塾の情報・色</button>
+      <button type="button" class="ed-btn primary" id="ed-save">保存して公開</button>
+      <button type="button" class="ed-btn" id="ed-exit">終了</button>
+    </div>
+    <div class="ed-row">
+      <div class="ed-tabs" role="tablist">
+        <button type="button" class="ed-btn" data-screen="intro">トップ</button>
+        <button type="button" class="ed-btn" data-screen="quiz">質問</button>
+        <button type="button" class="ed-btn" data-screen="result">結果</button>
+      </div>
+      <div class="ed-row" id="ed-sub"></div>
+    </div>
+    <div class="ed-tip" id="ed-tip"></div>
+    <div class="ed-msg" id="ed-msg" hidden></div>`;
+  document.body.appendChild(bar);
+  bar.querySelectorAll("[data-screen]").forEach(b => b.onclick = () => { commitFocused(); view.screen = b.dataset.screen; syncBar(); render(); window.scrollTo(0, 0); });
+  document.getElementById("ed-settings").onclick = () => { commitFocused(); drawer ? closeDrawer() : openDrawer(); };
+  document.getElementById("ed-save").onclick = save;
+  document.getElementById("ed-exit").onclick = () => {
+    commitFocused();
+    if (!DIRTY) { exitEdit(); return; }
+    showMsg(`保存していない変更があります。破棄して終了しますか? <button type="button" class="ed-btn" id="ed-discard">変更を破棄して終了</button><button type="button" class="ed-btn" id="ed-keep">編集を続ける</button>`);
+    document.getElementById("ed-discard").onclick = () => { ss.del(DRAFT_KEY); exitEdit(); };
+    document.getElementById("ed-keep").onclick = hideMsg;
+  };
+  const ro = new ResizeObserver(() => document.documentElement.style.setProperty("--ed-h", bar.offsetHeight + "px"));
+  ro.observe(bar);
+  syncBar();
+}
+function syncBar() {
+  if (!bar) return;
+  bar.querySelectorAll("[data-screen]").forEach(b => b.classList.toggle("on", b.dataset.screen === view.screen));
+  const sub = document.getElementById("ed-sub"), tip = document.getElementById("ed-tip");
+  const total = seqFor(view.branch).length;
+  if (view.screen === "quiz") {
+    sub.innerHTML = `<label class="ed-sel-wrap">ルート<select class="ed-sel" id="ed-branch"><option value="basic"${view.branch === "basic" ? " selected" : ""}>基本(成績・実績がこれからの生徒向け)</option><option value="advanced"${view.branch === "advanced" ? " selected" : ""}>発展(成績・実績がある生徒向け)</option></select></label>
+      <button type="button" class="ed-btn" id="ed-prev">← 前</button><span>Q${view.qi + 1} / ${total}</span><button type="button" class="ed-btn" id="ed-next">次 →</button>`;
+    document.getElementById("ed-branch").onchange = e => { commitFocused(); view.branch = e.target.value; syncBar(); render(); };
+    document.getElementById("ed-prev").onclick = () => { commitFocused(); view.qi = Math.max(0, view.qi - 1); syncBar(); render(); };
+    document.getElementById("ed-next").onclick = () => { commitFocused(); view.qi = Math.min(total - 1, view.qi + 1); syncBar(); render(); };
+    tip.innerHTML = "最初の7問の答えでレベルを判定し、8問目からは「基本」か「発展」の質問に分かれます。文章は書き換えられますが、点の入り方は変わりません。";
+  } else if (view.screen === "result") {
+    const opt = (id, label, pairs, cur) => `<label class="ed-sel-wrap">${label}<select class="ed-sel" id="${id}">${pairs.map(([v, l]) => `<option value="${v}"${v === cur ? " selected" : ""}>${esc(l)}</option>`).join("")}</select></label>`;
+    const pv = view.pv;
+    sub.innerHTML =
+      opt("pv-type", "タイプ", ORDER.map(k => [k, D().types[k].name]), pv.type) +
+      opt("pv-grade", "学年", [["1", "高1"], ["2", "高2"]], pv.grade) +
+      opt("pv-bunri", "文理", [["bun", "文系"], ["ri", "理系"], ["both", "未定"]], pv.bunri) +
+      opt("pv-goal", "本音", [["dream", "難関大は無理だと思う"], ["on", "難関大に届きそう"], ["undecided", "志望校が未定"], ["unsure", "進学を迷っている"]], pv.goal) +
+      opt("pv-level", "レベル", [["L1", "成績・実績これから(チャレンジ型として表示)"], ["L2", "土台あり(チャレンジ型)"], ["L3", "上位層(難関大射程型)"]], pv.level);
+    ["type", "grade", "bunri", "goal", "level"].forEach(k => { document.getElementById("pv-" + k).onchange = e => { commitFocused(); view.pv[k] = e.target.value; render(); }; });
+    tip.innerHTML = "上の選択を変えると、ほかの結果パターン(合格モデルはタイプ×レベル×文理の組み合わせ)も編集できます。<code>{タイプ名}</code><code>{レベル}</code><code>{武器1}</code><code>{武器2}</code><code>{学年}</code><code>{偏差値}</code><code>{塾名}</code> は診断結果に合わせて自動で入れ替わります。";
+  } else {
+    sub.innerHTML = "";
+    tip.innerHTML = "点線の文章をタップすると、その場で書き換えられます。<code>==文字==</code> で囲むとマーカー、改行もそのまま反映されます。";
+  }
+}
+function showMsg(html, ok) { const m = document.getElementById("ed-msg"); if (!m) return; m.innerHTML = html; m.classList.toggle("ok", !!ok); m.hidden = false; }
+function hideMsg() { const m = document.getElementById("ed-msg"); if (m) m.hidden = true; }
+
+/* ---------- 設定パネル ---------- */
+function openDrawer() {
+  const c = DRAFT.config, col = DRAFT.colors;
+  drawer = document.createElement("div");
+  drawer.className = "ed-drawer"; drawer.setAttribute("role", "dialog"); drawer.setAttribute("aria-label", "塾の情報と色");
+  const f = (id, label, val, hint, type = "text") => `<div class="ed-field"><label for="${id}">${label}</label><input type="${type}" id="${id}" value="${esc(val)}">${hint ? `<small>${hint}</small>` : ""}</div>`;
+  const cl = (id, label, val, hint) => `<label class="ed-color" for="${id}"><input type="color" id="${id}" value="${esc(val)}"><span><b>${label}</b><small>${hint}</small></span></label>`;
+  drawer.innerHTML = `
+    <div class="ed-drawer-head"><h2>塾の情報・色</h2><button type="button" class="ed-close" id="ed-drawer-close">閉じる</button></div>
+    ${f("cf-name", "塾名・校舎名", c.schoolName)}
+    ${f("cf-tag", "塾名の下の説明", c.schoolTag)}
+    ${f("cf-url", "無料相談の予約ページURL", c.ctaUrl, "https:// から入れてください。空のままだと「設定待ち」と表示されます。", "url")}
+    ${f("cf-label", "予約ボタンの文字", c.ctaLabel)}
+    ${f("cf-line", "LINE公式アカウントのURL", c.lineUrl, "空のままならLINEボタンは表示されません。", "url")}
+    ${f("cf-linelabel", "LINEボタンの文字", c.lineLabel)}
+    ${f("cf-fixed", "結果画面の下に出るボタンの文字", c.fixedLabel)}
+    ${f("cf-top", "右上のボタンの文字", c.topLabel)}
+    <div class="ed-field"><label for="cf-notes">相談の特徴(1行に1つ)</label><textarea id="cf-notes" rows="4">${esc(c.ctaNotes.join("\n"))}</textarea></div>
+    ${f("cf-site", "シェアするときのURL", c.siteUrl, "塾のサイトに載せる場合はそのURL。空のままなら今のページのURLになります。", "url")}
+    <h2>色</h2>
+    <div class="ed-colors">
+      ${cl("cc-brand", "メイン", col.brand, "背景の帯・ロゴ")}
+      ${cl("cc-brand2", "サブ", col.brand2, "見出し・枠線")}
+      ${cl("cc-cta", "相談ボタン", col.cta, "ボタン・強調")}
+      ${cl("cc-marker", "マーカー", col.marker, "金色の強調・線")}
+    </div>
+    <button type="button" class="ed-reset" id="cc-reset">色を最初の状態に戻す</button>`;
+  document.body.appendChild(drawer);
+  const bind = (id, path, transform) => { const el = document.getElementById(id); el.oninput = () => { set(DRAFT, path, transform ? transform(el.value) : el.value); markDirty(); }; };
+  bind("cf-name", "config.schoolName"); bind("cf-tag", "config.schoolTag"); bind("cf-url", "config.ctaUrl", v => v.trim());
+  bind("cf-label", "config.ctaLabel"); bind("cf-line", "config.lineUrl", v => v.trim()); bind("cf-linelabel", "config.lineLabel");
+  bind("cf-fixed", "config.fixedLabel"); bind("cf-top", "config.topLabel"); bind("cf-site", "config.siteUrl", v => v.trim());
+  bind("cf-notes", "config.ctaNotes", v => v.split("\n").map(s => s.trim()).filter(Boolean));
+  [["cc-brand", "brand"], ["cc-brand2", "brand2"], ["cc-cta", "cta"], ["cc-marker", "marker"]].forEach(([id, k]) => {
+    const el = document.getElementById(id);
+    el.oninput = () => { DRAFT.colors[k] = el.value; el.nextElementSibling.querySelector("small").textContent = el.value.toUpperCase(); applyColors(); markDirty(); };
+    el.nextElementSibling.querySelector("small").textContent = el.value.toUpperCase();
+  });
+  document.getElementById("cc-reset").onclick = () => { DRAFT.colors = clone(DEFAULTS.colors); markDirty(); closeDrawer(); openDrawer(); applyColors(); };
+  document.getElementById("ed-drawer-close").onclick = closeDrawer;
+  document.getElementById("ed-settings").classList.add("on");
+}
+function closeDrawer() {
+  if (!drawer) return;
+  drawer.remove(); drawer = null;
+  const b = document.getElementById("ed-settings"); if (b) b.classList.remove("on");
+  if (EDIT) render();
+}
+
+/* ---------- 保存 ---------- */
+const SKELETON_OPEN = '<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}body{margin:0;font:14px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}img{max-width:100%}[hidden]{display:none!important}</style></head><body>';
+const HEAD_PART = '<title>総合型選抜タイプ診断</title>\n<meta name="claude:viewport-fit-sides" content="cover">\n<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Klee+One:wght@600&family=Montserrat:wght@700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Zen+Old+Mincho:wght@600;700;900&display=swap">\n';
+function buildDocument(data) {
+  const style = document.getElementById("page-style").textContent;
+  const app = document.getElementById("app-script").textContent;
+  const json = JSON.stringify(data).replace(/</g, "\\u003c");
+  return SKELETON_OPEN + HEAD_PART +
+    '<style id="page-style">' + style + "</style>\n" +
+    '<div id="root"></div>\n' +
+    '<script type="application/json" id="page-data">' + json + "<\/script>\n" +
+    '<script id="app-script">' + app + "<\/script>" +
+    "</body></html>";
+}
+async function save() {
+  commitFocused();
+  if (!DIRTY || !ARTIFACT) return;
+  const btn = document.getElementById("ed-save"); btn.disabled = true;
+  updateStatus("保存しています…"); hideMsg();
+  ss.set(DRAFT_KEY, JSON.stringify(DRAFT));
+  try {
+    await ARTIFACT.publish(buildDocument(DRAFT));
+    DATA = clone(DRAFT); DIRTY = false;
+    showMsg("保存しました。公開ページに反映しています…", true);
+    updateStatus("保存しました");
+  } catch (err) {
+    const code = err && err.code;
+    const msgs = {
+      conflict: "ほかの場所で先にページが更新されたため、最新の内容を読み込みます。今回の編集内容は、読み込み後に復元できます。",
+      not_writer: "このページを編集する権限がないため、保存できません。",
+      not_granted: "このページを編集する権限がないため、保存できません。",
+      consent_required: "このページを編集する権限がないため、保存できません。",
+      rate_limited: "短い時間に保存が続いたため、受け付けられませんでした。少し待ってから、もう一度「保存して公開」を押してください。",
+      too_large: "ページの内容が大きすぎて保存できませんでした。長い文章を短くしてから、もう一度お試しください。",
+      invalid_content: "保存できない形式になっていました。Claudeに「編集モードで保存できない」と伝えてください。",
+      not_declared: "このページの保存機能が無効になっています。Claudeに「編集モードで保存できない」と伝えてください。"
+    };
+    showMsg(msgs[code] || "通信の問題で保存できませんでした。もう一度「保存して公開」を押してください。");
+    updateStatus();
+    btn.disabled = false;
+    if (code === "not_writer" || code === "not_granted" || code === "consent_required") ss.del(DRAFT_KEY);
+  }
+}
+
+/* ---------- 起動 ---------- */
+render();
+
+(async function initEditor() {
+  if (!window.claude || typeof window.claude.use !== "function") return;
+  let art = null, user = null;
+  try { [art, user] = await Promise.all([window.claude.use("artifact"), window.claude.use("user")]); } catch (e) { return; }
+  if (!art || !user) return;
+  let canEdit = false;
+  try { canEdit = await user.canEdit(); } catch (e) {}
+  if (!canEdit) return;
+  ARTIFACT = art;
+  fab = document.createElement("button");
+  fab.type = "button"; fab.className = "ed-fab"; fab.textContent = "✎ このページを編集";
+  fab.onclick = () => enterEdit(null);
+  document.body.appendChild(fab);
+
+  const saved = ss.get(DRAFT_KEY);
+  if (saved) {
+    if (saved === JSON.stringify(DATA)) { ss.del(DRAFT_KEY); return; }
+    let draft = null; try { draft = JSON.parse(saved); } catch (e) { ss.del(DRAFT_KEY); return; }
+    enterEdit(draft);
+    showMsg(`保存されていない編集内容を復元しました。 <button type="button" class="ed-btn" id="ed-drop">復元をやめて最新の状態に戻す</button>`);
+    document.getElementById("ed-drop").onclick = () => { ss.del(DRAFT_KEY); DRAFT = clone(DATA); DIRTY = false; hideMsg(); render(); updateStatus(); };
+  }
+})();
+
+window.__shindan = { buildDocument, enterEdit, get DRAFT() { return DRAFT; } };
+})();
+</script>
+
+</body>
+</html>
